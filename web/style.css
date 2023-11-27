@@ -1,0 +1,257 @@
+*{
+    box-sizing: border-box;
+}
+    
+@font-face {
+    font-family: "SF Pro Display";
+    src: url('fonts/SF-Pro-Display-Regular.otf') format("truetype");
+    font-weight: 400;
+}
+    @font-face {
+    font-family: "SF Pro Display";
+    src: url('fonts/SF-Pro-Display-Medium.otf') format("truetype");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "SF Pro Display";
+    src: url('fonts/SF-Pro-Display-Semibold.otf') format("truetype");
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: "SF Pro Display";
+    src: url('fonts/SF-Pro-Display-Bold.otf') format("truetype");
+    font-weight: 700;
+}
+    
+body {
+    font-family: "SF Pro Display";
+    margin: 0;
+    width: 100vw;
+}
+    
+a {
+    text-decoration: none;
+    color: #000;
+}
+    
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-right: 1px #EBEBEB solid;
+}
+    
+.sidebar .jti {
+    padding: 24px;
+    border-bottom: 1px #EBEBEB solid;
+    background-color: #fff;
+    color: #000;
+    align-items: center; 
+    gap: 12px; 
+    display: flex;
+}
+    
+.sidebar .jti img {
+    width: 36px;
+    height: 36px;
+}
+    
+.sidebar .jti .title {
+    color: #1B1B1B; 
+    font-size: 24px; 
+    font-weight: 600; 
+    word-wrap: break-word;
+}
+    
+.sidebar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    padding: 24px;
+}
+    
+.sidebar ul li {
+    margin-bottom: 8px;
+    list-style: none;
+}
+    
+.sidebar ul li a {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500; 
+}
+    
+.sidebar ul li a.selected {
+    background-color: #f4f4f4;
+    border: 1px solid #EBEBEB;
+    border-radius: 8px;
+}
+    
+.sidebar ul li a .notif {
+    padding: 2px 8px;
+    border-radius: 64px;
+    background: #EC1A1A;
+    font-size: 12px;
+    color: #fff;
+    font-weight: 500;
+    margin-left: auto;
+}
+    
+.sidebar ul li img {
+    width: 20px;
+    height: 20px;
+}
+    
+.sidebar .logout {
+    margin-top: 100%;
+    padding-inline: 32px;
+}
+    
+.sidebar .logout img {
+    width: 20px;
+    height: 20px;
+}
+    
+.sidebar .logout a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500; 
+    color: #EC1A1A;
+}
+
+.content {
+    flex-grow: 1;
+    margin-left: 280px;
+    width: calc(100vw - 280px);
+}
+    
+.content .header {
+    width: 100%;
+    border-bottom: 1px #EBEBEB solid;
+    background-color: #fff;
+    color: #000;
+}
+    
+.content .header .htitle {
+    padding: 24px;
+    font-size: 30px;
+    font-weight: 600;
+}
+    
+.content .container {
+    padding: 24px;
+}
+   
+.transaction {
+    width: 100%;
+}
+
+.transaction-control {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+
+.searchbar {
+    width: 332px;
+    padding: 10px 8px;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid #AFAFAF;
+}
+
+.searchbar img {
+    width: 20px;
+}
+
+.searchbox {
+    font-size: 16px;
+    color: #AFAFAF;
+    margin-left: 12px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.filter {
+    display: inline-flex;
+    align-items: center;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    padding: 2px;
+}
+
+.filter-option {
+    display: none;
+}
+
+.filter-label {
+    color: #7b7b7b;
+    text-align: center;
+    width: 80px;
+    cursor: pointer;
+
+}
+
+.filter-label:not(:last-child) {
+    margin-right: 4px;
+}
+
+.filter-option:checked + .filter-label {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    color: #1B1B1B;
+    background-color: #ffff;
+    border-radius: 6px;
+    padding: 8.5px;
+}
+
+table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+    text-align: left;
+    border-collapse: collapse;
+    border-radius: 8px;
+    border: 1px #EBEBEB solid;
+}
+    
+th{
+    border-bottom: 1px solid #EBEBEB;
+    width: 100vw;
+    padding-inline: 16px;
+    padding-block: 12px;
+    font-weight: 500;
+    color: #AFAFAF;
+}
+    
+td {
+    padding-inline: 16px;
+    padding-block: 12px;
+    font-weight: 500;
+    color: #000;
+}
+    
+td .seedetail {
+    display: inline-flex;
+    text-align: center;
+    padding-inline: 12px;
+    padding-block: 8px;
+    border-radius: 8px;
+    background-color: #f4f4f4;
+    border: 1px #EBEBEB solid;
+    font-weight: 500;
+    font-size: 14px;
+}
