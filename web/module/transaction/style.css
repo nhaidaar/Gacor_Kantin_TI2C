@@ -163,7 +163,11 @@ a {
 
 .transaction-control {
     width: 100%;
+<<<<<<< HEAD:web/module/transaction/style.css
     display: inline-flex;
+=======
+    display: flex;
+>>>>>>> e6131b3 (update transaction page):web/style.css
     gap: 16px;
     justify-content: space-between;
     margin-bottom: 32px;
@@ -252,7 +256,11 @@ a {
     border: 1px #EBEBEB solid;
 }
     
+<<<<<<< HEAD:web/module/transaction/style.css
 .transaction-data th{
+=======
+th{
+>>>>>>> e6131b3 (update transaction page):web/style.css
     width: 100vw;
     padding-inline: 16px;
     padding-block: 12px;
@@ -268,6 +276,7 @@ a {
     color: #000;
 }
 
+<<<<<<< HEAD:web/module/transaction/style.css
 .transaction-data td:last-child {
     text-align: center;
 }
@@ -275,6 +284,11 @@ a {
 .transaction-data tbody tr:hover {
     background-color: #f7f6f6;
 }
+=======
+td:last-child {
+    text-align: center;
+}
+>>>>>>> e6131b3 (update transaction page):web/style.css
     
 .transaction-data td .seedetail {
     display: inline-flex;
