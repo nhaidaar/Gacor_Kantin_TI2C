@@ -155,13 +155,15 @@ a {
 }
 
 .transaction-control {
+    width: 100%;
     display: flex;
+    gap: 16px;
     justify-content: space-between;
     margin-bottom: 32px;
 }
 
 .searchbar {
-    width: 332px;
+    width: 35%;
     padding: 10px 8px;
     background-color: #f4f4f4;
     display: flex;
@@ -220,7 +222,7 @@ a {
 
 table {
     width: 100%;
-    display: block;
+    display: inline-block;
     overflow-x: auto;
     text-align: left;
     border-collapse: collapse;
@@ -229,12 +231,12 @@ table {
 }
     
 th{
-    border-bottom: 1px solid #EBEBEB;
     width: 100vw;
     padding-inline: 16px;
     padding-block: 12px;
     font-weight: 500;
     color: #AFAFAF;
+    border-bottom: 1px solid #EBEBEB;
 }
     
 td {
@@ -242,6 +244,10 @@ td {
     padding-block: 12px;
     font-weight: 500;
     color: #000;
+}
+
+td:last-child {
+    text-align: center;
 }
     
 td .seedetail {
