@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 28, 2023 at 05:51 AM
+-- Generation Time: Nov 28, 2023 at 07:10 AM
 -- Server version: 10.11.2-MariaDB
 -- PHP Version: 8.0.28
 
@@ -24,12 +24,28 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `add_product_log`
+--
+
+CREATE TABLE `add_product_log` (
+  `id` int(11) NOT NULL,
+  `product_name` varchar(225) NOT NULL,
+  `img_url` varchar(225) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `stocks` int(11) NOT NULL,
+  `buying_price` double NOT NULL,
+  `selling_price` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `category`
 --
 
 CREATE TABLE `category` (
   `id` int(11) NOT NULL,
-  `category_id` varchar(225) NOT NULL
+  `category_name` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -45,9 +61,7 @@ CREATE TABLE `product` (
   `category_id` int(11) NOT NULL,
   `stocks` int(100) NOT NULL,
   `buying_price` double NOT NULL,
-  `selling_price` double NOT NULL,
-  `expired_date` date NOT NULL,
-  `status` enum('Request','Approved') NOT NULL
+  `selling_price` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -93,6 +107,13 @@ CREATE TABLE `user` (
 --
 
 --
+-- Indexes for table `add_product_log`
+--
+ALTER TABLE `add_product_log`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
 -- Indexes for table `category`
 --
 ALTER TABLE `category`
@@ -115,7 +136,9 @@ ALTER TABLE `transactions`
 -- Indexes for table `transaction_items`
 --
 ALTER TABLE `transaction_items`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `transactions_id` (`transactions_id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `user`
@@ -126,6 +149,12 @@ ALTER TABLE `user`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `add_product_log`
+--
+ALTER TABLE `add_product_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -162,10 +191,23 @@ ALTER TABLE `user`
 --
 
 --
+-- Constraints for table `add_product_log`
+--
+ALTER TABLE `add_product_log`
+  ADD CONSTRAINT `add_product_log_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+
+--
 -- Constraints for table `product`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+
+--
+-- Constraints for table `transaction_items`
+--
+ALTER TABLE `transaction_items`
+  ADD CONSTRAINT `transaction_items_ibfk_1` FOREIGN KEY (`transactions_id`) REFERENCES `transactions` (`id`),
+  ADD CONSTRAINT `transaction_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
