@@ -1,12 +1,6 @@
 *{
     box-sizing: border-box;
 }
-
-@font-face {
-    font-family: "SF Pro Display";
-    src: url('fonts/SF-Pro-Display-Medium.otf') format("truetype");
-    font-weight: 300;
-}
     
 @font-face {
     font-family: "SF Pro Display";
@@ -92,15 +86,14 @@ a {
     align-items: center;
     gap: 12px;
     font-weight: 500; 
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: ease-in 0.2s;
 }
-
-.sidebar ul li a svg {
-    transition: stroke 0.2s ease-in;
+    
+.sidebar ul li a.selected {
+    background-color: #f4f4f4;
+    border: 1px solid #EBEBEB;
+    border-radius: 8px;
 }
-
+    
 .sidebar ul li a .notif {
     padding: 2px 8px;
     border-radius: 64px;
@@ -110,21 +103,20 @@ a {
     font-weight: 500;
     margin-left: auto;
 }
-
-.sidebar ul li a:hover {
-    color: #ffe79a;
-    background-color: #fff7dd;
-    border: 1px solid #ffe79a;
-    border-radius: 8px;
+    
+.sidebar ul li img {
+    width: 20px;
+    height: 20px;
 }
-
-.sidebar ul li a:hover svg path {
-    stroke: #ffe79a;
-}
-
+    
 .sidebar .logout {
     margin-top: 100%;
     padding-inline: 32px;
+}
+    
+.sidebar .logout img {
+    width: 20px;
+    height: 20px;
 }
     
 .sidebar .logout a {
@@ -136,6 +128,7 @@ a {
 }
 
 .content {
+    flex-grow: 1;
     margin-left: 280px;
     width: calc(100vw - 280px);
 }
@@ -163,11 +156,7 @@ a {
 
 .transaction-control {
     width: 100%;
-<<<<<<< HEAD:web/module/transaction/style.css
-    display: inline-flex;
-=======
     display: flex;
->>>>>>> e6131b3 (update transaction page):web/style.css
     gap: 16px;
     justify-content: space-between;
     margin-bottom: 32px;
@@ -183,6 +172,10 @@ a {
     border: 1px solid #AFAFAF;
 }
 
+.searchbar img {
+    width: 20px;
+}
+
 .searchbox {
     font-size: 16px;
     color: #AFAFAF;
@@ -190,11 +183,6 @@ a {
     background-color: transparent;
     border: none;
     outline: none;
-}
-
-.control {
-    display: inline-flex;
-    gap: 6px;
 }
 
 .filter {
@@ -232,21 +220,7 @@ a {
     padding: 8.5px;
 }
 
-.btn-add {
-    background-color: #ffc300;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 16px;
-    border-radius: 8px;
-    gap: 8px;
-}
-
-.btn-add:hover {
-    background-color: #ebb400;
-}
-
-.transaction-data {
+table {
     width: 100%;
     display: inline-block;
     overflow-x: auto;
@@ -256,11 +230,7 @@ a {
     border: 1px #EBEBEB solid;
 }
     
-<<<<<<< HEAD:web/module/transaction/style.css
-.transaction-data th{
-=======
 th{
->>>>>>> e6131b3 (update transaction page):web/style.css
     width: 100vw;
     padding-inline: 16px;
     padding-block: 12px;
@@ -269,149 +239,25 @@ th{
     border-bottom: 1px solid #EBEBEB;
 }
     
-.transaction-data td {
+td {
     padding-inline: 16px;
     padding-block: 12px;
-    font-weight: 400;
+    font-weight: 500;
     color: #000;
 }
 
-<<<<<<< HEAD:web/module/transaction/style.css
-.transaction-data td:last-child {
-    text-align: center;
-}
-
-.transaction-data tbody tr:hover {
-    background-color: #f7f6f6;
-}
-=======
 td:last-child {
     text-align: center;
 }
->>>>>>> e6131b3 (update transaction page):web/style.css
     
-.transaction-data td .seedetail {
+td .seedetail {
     display: inline-flex;
-    cursor: pointer;
     text-align: center;
     padding-inline: 12px;
     padding-block: 8px;
     border-radius: 8px;
     background-color: #f4f4f4;
     border: 1px #EBEBEB solid;
-    font-weight: 300;
+    font-weight: 500;
     font-size: 14px;
-}
-
-.modal-transaction {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(0, 0, 0, 30%);
-}
-
-.modal-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: auto;
-    width: 660px;
-    background-color: #fff;
-    border-radius: 16px;
-    box-sizing: border-box;
-}
-
-.modal-header {
-    font-size: 24px;
-    font-weight: 300;
-    text-align: center;
-    width: 100%;
-    padding: 16px;
-    border-bottom: 1px solid #EBEBEB;
-}
-
-
-
-.stamp {
-    margin: 16px;
-    box-sizing: border-box;
-}
-
-.stamp td:first-child {
-    color: #afafaf;
-}
-
-.stamp td:last-child {
-    text-align: right;
-}
-
-.purchased {
-    width: calc(100%-32px);
-    display: inline-block;
-    margin-inline: 16px;
-    border-collapse: collapse;
-    border-radius: 8px;
-    border: 1px solid #EBEBEB;
-    box-sizing: border-box;
-}
-
-.purchased thead {
-    border-bottom: 1px solid #ebebeb;
-}
-
-.purchased thead, .purchased tbody {
-    width: 100%;
-    display: table;
-}
-
-.purchased th {
-    font-weight: 300;
-    padding: 8px;
-}
-
-.purchased td {
-    padding: 12px 8px;
-}
-
-.purchased th:first-child {
-    text-align: left;
-    color: #afafaf;
-}
-
-.purchased th:last-child, .purchased td:last-child {
-    text-align: right;
-}
-
-.total-price {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 16px;
-    padding-inline: 16px;
-    border-top: 1px dashed #ebebeb;
-    border-bottom: 1px solid #ebebeb;
-}
-
-.total-price p:first-child {
-    color: #afafaf;
-}
-
-.modal-button {
-    margin: 16px;
-    padding: 16px;
-    background-color: #fff;
-    cursor: pointer;
-    border-radius: 8px;
-    border: 1px solid #ebebeb;
-}
-
-.modal-button:hover {
-    background-color: #ebebeb;
 }

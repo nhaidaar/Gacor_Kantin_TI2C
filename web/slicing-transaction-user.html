@@ -16,16 +16,19 @@
         </div>
         <ul>
             <li>
-                <a href="#"><img src="icons/sidebar-dashboard.png">Dashboard</a>
+                <a href="slicing-dashboard.html" class="selected"><img src="icons/sidebar-dashboard.png">Dashboard</a>
             </li>
             <li>
                 <a href="#"><img src="icons/sidebar-product.png">Product</a>
             </li>
             <li>
-                <a href="slicing-transaction-admin.html"><img src="icons/sidebar-transactions.png">Transaction</a>
+                <a href="slicing-transaction.html"><img src="icons/sidebar-transactions.png">Transaction</a>
             </li>
             <li>
                 <a href="#"><img src="icons/sidebar-notification.png">Notification<div class="notif">99+</div></a>
+            </li>
+            <li>
+                <a href="#"><img src="icons/sidebar-setting.png">Setting</a>
             </li>
         </ul>
         <div class="logout">
@@ -46,13 +49,23 @@
                         <img src="icons/search.png">
                         <input type="text" name="search" class="searchbox" placeholder="Search">
                     </div>
-                    <div class="filter">
-                        <input type="radio" name="date-filter" id="today" class="filter-option" checked> 
-                        <label for="today" class="filter-label">Today</label>
-                        <input type="radio" name="date-filter" id="week" class="filter-option">
-                        <label for="week" class="filter-label">Week</label>
-                        <input type="radio" name="date-filter" id="month" class="filter-option">
-                        <label for="month" class="filter-label">Month</label>
+                    <div class="control">
+                        <div class="filter">
+                            <input type="radio" name="date-filter" id="today" class="filter-option" checked> 
+                            <label for="today" class="filter-label">Today</label>
+                            <input type="radio" name="date-filter" id="week" class="filter-option">
+                            <label for="week" class="filter-label">Week</label>
+                            <input type="radio" name="date-filter" id="month" class="filter-option">
+                            <label for="month" class="filter-label">Month</label>
+                        </div>
+
+                        <div class="btn-add">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 10H15" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10 15V5" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <a href="#">Add Transaction</a>
+                        </div>
                     </div>
                 </form>
                 <table>
