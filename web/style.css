@@ -97,15 +97,10 @@ a {
     transition: ease-in 0.2s;
 }
 
-.sidebar ul li a:hover {
-    color: #ffe79a;
-    background-color: #fff7dd;
-    border: 1px solid #ffe79a;
-    border-radius: 8px;
+.sidebar ul li a svg {
+    transition: stroke 0.2s ease-in;
 }
 
-
-    
 .sidebar ul li a .notif {
     padding: 2px 8px;
     border-radius: 64px;
@@ -115,12 +110,18 @@ a {
     font-weight: 500;
     margin-left: auto;
 }
-    
-.sidebar ul li img {
-    width: 20px;
-    height: 20px;
+
+.sidebar ul li a:hover {
+    color: #ffe79a;
+    background-color: #fff7dd;
+    border: 1px solid #ffe79a;
+    border-radius: 8px;
 }
-    
+
+.sidebar ul li a:hover svg path {
+    stroke: #ffe79a;
+}
+
 .sidebar .logout {
     margin-top: 100%;
     padding-inline: 32px;
@@ -182,10 +183,6 @@ a {
     align-items: center;
     border-radius: 8px;
     border: 1px solid #AFAFAF;
-}
-
-.searchbar img {
-    width: 20px;
 }
 
 .searchbox {
@@ -279,6 +276,10 @@ td {
 
 td:last-child {
     text-align: center;
+}
+
+tbody tr:hover {
+    background-color: #f7f6f6;
 }
     
 td .seedetail {
