@@ -1,6 +1,12 @@
 *{
     box-sizing: border-box;
 }
+
+@font-face {
+    font-family: "SF Pro Display";
+    src: url('fonts/SF-Pro-Display-Medium.otf') format("truetype");
+    font-weight: 300;
+}
     
 @font-face {
     font-family: "SF Pro Display";
@@ -86,13 +92,19 @@ a {
     align-items: center;
     gap: 12px;
     font-weight: 500; 
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: ease-in 0.2s;
 }
-    
-.sidebar ul li a.selected {
-    background-color: #f4f4f4;
-    border: 1px solid #EBEBEB;
+
+.sidebar ul li a:hover {
+    color: #ffe79a;
+    background-color: #fff7dd;
+    border: 1px solid #ffe79a;
     border-radius: 8px;
 }
+
+
     
 .sidebar ul li a .notif {
     padding: 2px 8px;
@@ -156,7 +168,7 @@ a {
 
 .transaction-control {
     width: 100%;
-    display: flex;
+    display: inline-flex;
     gap: 16px;
     justify-content: space-between;
     margin-bottom: 32px;
@@ -183,6 +195,11 @@ a {
     background-color: transparent;
     border: none;
     outline: none;
+}
+
+.control {
+    display: inline-flex;
+    gap: 6px;
 }
 
 .filter {
@@ -220,6 +237,20 @@ a {
     padding: 8.5px;
 }
 
+.btn-add {
+    background-color: #ffc300;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 16px;
+    border-radius: 8px;
+    gap: 8px;
+}
+
+.btn-add:hover {
+    background-color: #ebb400;
+}
+
 table {
     width: 100%;
     display: inline-block;
@@ -242,7 +273,7 @@ th{
 td {
     padding-inline: 16px;
     padding-block: 12px;
-    font-weight: 500;
+    font-weight: 400;
     color: #000;
 }
 
@@ -258,6 +289,6 @@ td .seedetail {
     border-radius: 8px;
     background-color: #f4f4f4;
     border: 1px #EBEBEB solid;
-    font-weight: 500;
+    font-weight: 300;
     font-size: 14px;
 }
