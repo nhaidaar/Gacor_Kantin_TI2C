@@ -87,7 +87,6 @@ a {
     gap: 12px;
     font-weight: 500; 
 }
-<<<<<<< HEAD:web/module/transaction/style.css
     
 .sidebar ul li a.selected {
     background-color: #f4f4f4;
@@ -95,13 +94,10 @@ a {
     border-radius: 8px;
 }
     
-=======
-
 .sidebar ul li a svg {
     transition: stroke 0.2s ease-in;
 }
 
->>>>>>> b4c3d2c (update transaction page and db with dummy):web/style.css
 .sidebar ul li a .notif {
     padding: 2px 8px;
     border-radius: 64px;
@@ -224,9 +220,6 @@ a {
     padding: 8.5px;
 }
 
-<<<<<<< HEAD:web/module/transaction/style.css
-table {
-=======
 .btn-add {
     background-color: #ffc300;
     display: inline-flex;
@@ -242,7 +235,6 @@ table {
 }
 
 .transaction-data {
->>>>>>> 798190b ("add modal in admin"):web/style.css
     width: 100%;
     display: inline-block;
     overflow-x: auto;
@@ -323,8 +315,6 @@ table {
     padding: 16px;
     border-bottom: 1px solid #EBEBEB;
 }
-
-
 
 .stamp {
     margin: 16px;
