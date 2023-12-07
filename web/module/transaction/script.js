@@ -1,16 +1,16 @@
-function openModal() {
-    var modal = document.getElementById('modal');
-    modal.style.display = 'flex';
+function openDetail() {
+    var modalDetail = document.getElementById('modal-seedetail');
+    modalDetail.style.display = 'flex';
 }
 
-function closeModal() {
-    var modal = document.getElementById('modal');
-    modal.style.display = 'none';
+function closeDetail() {
+    var modalDetail = document.getElementById('modal-seedetail');
+    modalDetail.style.display = 'none';
 }
 
 window.onclick = function (event) {
-    var modal = document.getElementById('modal');
-    if (event.target == modal) {
-        modal.style.display = 'none';
+    var modalDetail = document.getElementById('modal-seedetail');
+    if (event.target == modalDetail) {
+        modalDetail.style.display = 'none';
     }
 };
