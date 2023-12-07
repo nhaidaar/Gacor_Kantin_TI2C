@@ -93,7 +93,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
                                 <path stroke="#1B1B1B" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 10h10m-5 5V5" />
                             </svg>
-                            Add Product
+                            Add Transaction
                         </div>
                     </div>
                 </div>
@@ -137,113 +137,9 @@
                                 <td><?= $row['transaction_time']; ?></td>
                                 <td><?= date("d-m-Y", strtotime($row['transaction_date'])); ?></td>
                                 <td>IDR <?= number_format($row['total_price'], 2, ',', '.'); ?></td>
-                                <td><a onclick="openModal()">View Detail</a></td>
+                                <td><a id="<?= $row['order_id']; ?>" onclick="openModal()">View Detail</a></td>
                             </tr>
                         <?php } ?>
-                        <tr>
-                            <td>#00001234</td>
-                            <td>Royal Height</td>
-                            <td>04-10-2023</td>
-                            <td>04-10-2023</td>
-                            <td>IDR 50.000,00</td>
-                            <td><a onclick="openModal()">View Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td>#00001234</td>
-                            <td>Royal Height</td>
-                            <td>04-10-2023</td>
-                            <td>04-10-2023</td>
-                            <td>IDR 50.000,00</td>
-                            <td><a onclick="openModal()">View Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td>#00001234</td>
-                            <td>Royal Height</td>
-                            <td>04-10-2023</td>
-                            <td>04-10-2023</td>
-                            <td>IDR 50.000,00</td>
-                            <td><a onclick="openModal()">View Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td>#00001234</td>
-                            <td>Royal Height</td>
-                            <td>04-10-2023</td>
-                            <td>04-10-2023</td>
-                            <td>IDR 50.000,00</td>
-                            <td><a onclick="openModal()">View Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td>#00001234</td>
-                            <td>Royal Height</td>
-                            <td>04-10-2023</td>
-                            <td>04-10-2023</td>
-                            <td>IDR 50.000,00</td>
-                            <td><a onclick="openModal()">View Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td>#00001234</td>
-                            <td>Royal Height</td>
-                            <td>04-10-2023</td>
-                            <td>04-10-2023</td>
-                            <td>IDR 50.000,00</td>
-                            <td><a onclick="openModal()">View Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td>#00001234</td>
-                            <td>Royal Height</td>
-                            <td>04-10-2023</td>
-                            <td>04-10-2023</td>
-                            <td>IDR 50.000,00</td>
-                            <td><a onclick="openModal()">View Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td>#00001234</td>
-                            <td>Royal Height</td>
-                            <td>04-10-2023</td>
-                            <td>04-10-2023</td>
-                            <td>IDR 50.000,00</td>
-                            <td><a onclick="openModal()">View Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td>#00001234</td>
-                            <td>Royal Height</td>
-                            <td>04-10-2023</td>
-                            <td>04-10-2023</td>
-                            <td>IDR 50.000,00</td>
-                            <td><a onclick="openModal()">View Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td>#00001234</td>
-                            <td>Royal Height</td>
-                            <td>04-10-2023</td>
-                            <td>04-10-2023</td>
-                            <td>IDR 50.000,00</td>
-                            <td><a onclick="openModal()">View Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td>#00001234</td>
-                            <td>Royal Height</td>
-                            <td>04-10-2023</td>
-                            <td>04-10-2023</td>
-                            <td>IDR 50.000,00</td>
-                            <td><a onclick="openModal()">View Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td>#00001234</td>
-                            <td>Royal Height</td>
-                            <td>04-10-2023</td>
-                            <td>04-10-2023</td>
-                            <td>IDR 50.000,00</td>
-                            <td><a onclick="openModal()">View Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td>#00001234</td>
-                            <td>Royal Height</td>
-                            <td>04-10-2023</td>
-                            <td>04-10-2023</td>
-                            <td>IDR 50.000,00</td>
-                            <td><a onclick="openModal()">View Detail</a></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -255,55 +151,49 @@
             <div class="modal-header">
                 Detail Transaction
             </div>
-
-            <table class="stamp">
-                <tr>
-                    <td>Order ID</td>
-                    <td>#00001234</td>
-                </tr>
-                <tr>
-                    <td>Time</td>
-                    <td>#00001234</td>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>#00001234</td>
-                </tr>
-            </table>
-
-            <table class="purchased">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th><span>4</span> items</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Teh Pucuk Harum</td>
-                        <td>IDR <span>3.500,00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Teh Pucuk Harum</td>
-                        <td>IDR <span>3.500,00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Teh Pucuk Harum</td>
-                        <td>IDR <span>3.500,00</span></td>
-                    </tr>
-                    <tr>
-                        <td>Teh Pucuk Harum</td>
-                        <td>IDR <span>3.500,00</span></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="total-price">
-                <p>Total Price</p>
-                <p>IDR <span>10.000,00</span></p>
+            <div class="modal-content">
+                <div class="product-row">
+                    <div class="order-attribute">
+                        Order ID
+                    </div>
+                    #00001234
+                </div>
+                <div class="product-row">
+                    <div class="order-attribute">
+                        Order ID
+                    </div>
+                    #00001234
+                </div>
+                <div class="product-row">
+                    <div class="order-attribute">
+                        Order ID
+                    </div>
+                    #00001234
+                </div>
+                <table style="border-radius: 8px; margin: 8px 0px;">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>4 items</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Teh Pucuk</td>
+                            <td>IDR 2.500,00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="product-row">
+                    <div class="order-attribute">
+                        Order ID
+                    </div>
+                    #00001234
+                </div>
             </div>
-
-            <button id="close-modal" class="modal-button" onclick="closeModal()">Close</button>
+            <div class="modal-footer">
+                <div id="close-modal" class="modal-button" onclick="closeModal()">Close</div>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
