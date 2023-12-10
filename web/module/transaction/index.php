@@ -72,6 +72,7 @@
                 Transaction
             </div>
         </div>
+        
         <div class="container">
             <div>
                 <div class="product-row">
@@ -306,6 +307,52 @@
             <button id="close-modal" class="modal-button" onclick="closeModal()">Close</button>
         </div>
     </div>
+
+    <div class="add-transaction-page content">
+        <div id="back-button" class="back-to-transaction">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.16675 10H15.8334" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8.33341 5.83337L4.16675 10" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8.33341 14.1667L4.16675 10" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back
+        </div>
+        
+        <div class="add-transaction-container">
+            <div style=" width:100%; padding: 16px;">    
+                <div class=" add-product">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="9.21552" cy="9.21552" r="5.88495" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16.6695 16.6695L13.3765 13.3765" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    
+                    <input type="text" name="search-product" id="search-product"  placeholder="Search">
+                </div>
+            </div>
+
+            <table class="transaction" style="margin: 16px;">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#00001234</td>
+                        <td>Teh Pucuk</td>
+                        <td>1</td>
+                        <td>IDR 5.000,00</td>
+                        <td><a>Cancel</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 
