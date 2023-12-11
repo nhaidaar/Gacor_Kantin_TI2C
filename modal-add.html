@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="modal-add" class="modal-add">
+        <div class="add-container">
+            <div class="add-header">
+                <div class="header-icon">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 10H15" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 15V5" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <div class="header-description">
+                        Add Product<br>
+                        <span>Select and Upload the files of your choice</span>
+                </div>
+            </div>
+
+            <div class="add-content">
+                <form action="" method="">
+                    
+                    <div id="drop-area" class="product-image">
+                        <input type="file" name="upload-image" id="upload-image" hidden>
+                        
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 15L12 12" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 12L9 15" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 20V12" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 19H6C3.79086 19 2 17.2091 2 15C2 12.7909 3.79086 11 6 11L5.99 10.9296C5.74111 9.18739 6.26051 7.42287 7.41362 6.09331C8.56673 4.76375 10.2401 4.00001 12 4C13.7599 4.00001 15.4333 4.76375 16.5864 6.09331C17.7395 7.42287 18.2589 9.18739 18.01 10.9296L18 11C20.2091 11 22 12.7909 22 15C22 17.2091 20.2091 19 18 19H16" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        
+                        <p>
+                            Choose an image or drag & drop it here. <br>
+                            <span>JPEG or PNG up to 10 MB.</span>
+                        </p>
+
+                        <label for="upload-image">Browse Image</label>
+                    </div>
+
+                    <label for="product-name">Product Name<span>*</span></label>
+                    <input type="text" name="product-name" id="product-name" class="form-control" placeholder="Name of Product" required>
+
+                    <label class="category" for="">Category<span>*</span></label>
+                    <div id="product-category" class="product-category">
+                        <input type="radio" name="category" id="meal" class="category-option" checked>
+                        <label for="meal" class="category-label">Meal</label>
+                        <input type="radio" name="category" id="snack" class="category-option">
+                        <label for="snack" class="category-label">Snack</label>
+                        <input type="radio" name="category" id="beverage" class="category-option">
+                        <label for="beverage" class="category-label">Beverage</label>
+                    </div>
+
+                    <label for="product-description">Product Description<span>*</span></label>
+                    <textarea name="product-description" id="product-description" class="form-control" placeholder="EX. Isi ayam suwir" required></textarea>
+
+                    <label for="buying-price">Buying Price<span>*</span></label>
+                    <div class="form-control price">
+                        <p>IDR</p>
+                        <input type="text" name="buying-price" id="buying-price" placeholder="0000" required>
+                    </div>
+                    
+                    <label for="selling-price">Selling Price<span>*</span></label>
+                    <div class="form-control price">
+                        <p>IDR</p>
+                        <input type="text" name="selling-price" id="selling-price" placeholder="0000" required>
+                    </div>
+                </form>
+            </div>
+
+            <div class="button-control">
+                <button id="button-cancel">Cancel</button>
+                <button id="button-add">Add Product</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
