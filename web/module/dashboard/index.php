@@ -5,6 +5,7 @@
     <title>Kantin Gacor</title>
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="assets/logo-jti.png" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -149,11 +150,8 @@
             <div style="height: 16px;"></div>
             <div class="product-list">
                 <?php
-                $query = "SELECT 
-                        * 
-                        FROM product 
-                        INNER JOIN category 
-                        WHERE product.category_id = category.id 
+                $query = "SELECT * FROM product 
+                        INNER JOIN category ON product.category_id = category.id 
                         LIMIT 4";
                 $result = mysqli_query($koneksi, $query);
                 while ($row = mysqli_fetch_assoc($result)) {
@@ -227,8 +225,8 @@
                         <tr>
                             <th>Order ID</th>
                             <th>Product</th>
-                            <th>Time</th>
                             <th>Date</th>
+                            <th>Time</th>
                             <th>Total Price</th>
                             <th></th>
                         </tr>
@@ -255,12 +253,12 @@
                         while ($row = mysqli_fetch_assoc($result)) {
                         ?>
                             <tr>
-                                <td><?= $row['order_id']; ?></td>
+                                <td><?= '#' . sprintf('%08s', strtoupper(dechex($row['order_id']))); ?></td>
                                 <td><?= $row['product']; ?></td>
-                                <td><?= $row['transaction_time']; ?></td>
                                 <td><?= date("d-m-Y", strtotime($row['transaction_date'])); ?></td>
+                                <td><?= $row['transaction_time']; ?></td>
                                 <td>IDR <?= number_format($row['total_price'], 2, ',', '.'); ?></td>
-                                <td><a onclick="openModal()">See Detail</a></td>
+                                <td><a data-id="<?= $row['order_id'] ?>" onclick="openModal()">See Detail</a></td>
                             </tr>
                         <?php } ?>
                     </tbody>
@@ -268,7 +266,7 @@
             </div>
         </div>
     </div>
-    <script src=""></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

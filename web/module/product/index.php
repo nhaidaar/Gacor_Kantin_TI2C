@@ -22,7 +22,7 @@
                     Dashboard</a>
             </li>
             <li>
-                <a href="index.php?page=product">
+                <a href="index.php?page=product" class="active">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.501 7.186V7.5a2.501 2.501 0 0 1-2.5 2.501v0A2.501 2.501 0 0 1 7.498 7.5v-.313" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.501 7.186V7.5a2.501 2.501 0 0 0 2.501 2.5h.207a2.294 2.294 0 0 0 2.294-2.294v0c0-.34-.092-.674-.267-.965l-2-3.333a1.876 1.876 0 0 0-1.609-.911H6.373c-.66 0-1.27.346-1.609.91l-2 3.334a1.876 1.876 0 0 0-.267.965v0A2.294 2.294 0 0 0 4.79 10h.207a2.501 2.501 0 0 0 2.5-2.501v-.313" />
@@ -31,7 +31,7 @@
                     Product</a>
             </li>
             <li>
-                <a href="index.php?page=transaction" class="active">
+                <a href="index.php?page=transaction">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M18.333 5v2.017c0 1.316-.833 2.15-2.15 2.15h-2.85V3.342c0-.925.759-1.675 1.684-1.675a3.35 3.35 0 0 1 2.341.975c.6.608.975 1.441.975 2.358Z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M1.667 5.833V17.5A.83.83 0 0 0 3 18.167L4.425 17.1a.84.84 0 0 1 1.1.083l1.383 1.392a.84.84 0 0 0 1.184 0l1.4-1.4a.826.826 0 0 1 1.083-.075L12 18.167a.835.835 0 0 0 1.333-.667V3.333c0-.916.75-1.666 1.667-1.666H5C2.5 1.667 1.667 3.158 1.667 5v.833Z" />
@@ -64,15 +64,14 @@
     <div class="content">
         <div class="header-fixed">
             <div class="htitle">
-                Transaction
+                Product
             </div>
         </div>
         <div class="header">
             <div class="htitle">
-                Transaction
+                Product
             </div>
         </div>
-        
         <div class="container">
             <div class="product-row">
                 <div class="searchbar">
@@ -93,158 +92,75 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
                             <path stroke="#1B1B1B" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 10h10m-5 5V5" />
                         </svg>
-                        Add Transaction
+                        Add Product
                     </div>
                 </div>
             </div>
             <div style="height: 32px;"></div>
-
-            <table class="transaction">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Product</th>
-                        <th>Time</th>
-                        <th>Date</th>
-                        <th>Total Price</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $query = "SELECT 
-                                    t.id AS order_id,
-                                    GROUP_CONCAT(CONCAT(ti.qty, 'pcs ', p.product_name) SEPARATOR '\n') AS product,
-                                    TIME(t.date) AS transaction_time,
-                                    DATE(t.date) AS transaction_date,
-                                    SUM(ti.total_price) AS total_price
-                                FROM 
-                                    transactions t
-                                INNER JOIN 
-                                    transaction_items ti ON t.id = ti.transactions_id
-                                INNER JOIN 
-                                    product p ON ti.product_id = p.id
-                                GROUP BY 
-                                    t.id
-                                ORDER BY t.date DESC
-                                ";
-                    $result = mysqli_query($koneksi, $query);
-                    while ($row = mysqli_fetch_assoc($result)) {
-                    ?>
-                        <tr>
-                            <td><?= $row['order_id']; ?></td>
-                            <td><?= $row['product']; ?></td>
-                            <td><?= $row['transaction_time']; ?></td>
-                            <td><?= date("d-m-Y", strtotime($row['transaction_date'])); ?></td>
-                            <td>IDR <?= number_format($row['total_price'], 2, ',', '.'); ?></td>
-                            <td><a id="<?= $row['order_id']; ?>" onclick="openModal()">View Detail</a></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div id="modal" class="modal-transaction">
-        <div class="modal-container">
-            <div class="modal-header">
-                Detail Transaction
-            </div>
-            <div class="modal-content">
-                <div class="product-row">
-                    <div class="order-attribute">
-                        Order ID
+            <div class="product-wrap">
+                <?php
+                $query = "SELECT 
+                        * 
+                        FROM product 
+                        INNER JOIN category 
+                        WHERE product.category_id = category.id 
+                        ";
+                $result = mysqli_query($koneksi, $query);
+                while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                    <div class="product-container">
+                        <div class="product-preview">
+                            <div class="product-stock">
+                                <?= $row['stocks'] ?> Stock(s)
+                            </div>
+                            <img src="assets/<?= $row['product_name'] ?>.png" class="product-img">
+                        </div>
+                        <div class="product-detail">
+                            <div class="product-name">
+                                <?= $row['product_name'] ?>
+                            </div>
+                            <div class="product-category">
+                                <?= $row['category_name'] ?>
+                            </div>
+                            <div class="product-price">
+                                IDR <?= number_format($row['selling_price'], 2, ',', '.'); ?>
+                            </div>
+                            <?php
+                            if ($_SESSION['level'] == 'admin') {
+                            ?>
+                                <div class="product-button-row">
+                                    <a href="#">
+                                        <div class="edit-product">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
+                                                <path stroke="#1B1B1B" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m4.91 13.016 8.606-8.605a.833.833 0 0 1 1.177 0l1.397 1.397a.833.833 0 0 1 0 1.177l-8.606 8.604a.83.83 0 0 1-.588.244h-2.23v-2.229a.83.83 0 0 1 .245-.588Z" clip-rule="evenodd" />
+                                                <path stroke="#1B1B1B" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m11.958 5.967 2.575 2.575" />
+                                            </svg>
+                                            Edit Product
+                                        </div>
+                                    </a>
+                                    <a href="#">
+                                        <div class="delete-product">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
+                                                <path stroke="#EC1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.952 17.503H7.048c-.98 0-1.795-.755-1.87-1.732l-.805-10.46h11.254l-.804 10.46a1.876 1.876 0 0 1-1.87 1.732v0Z" clip-rule="evenodd" />
+                                                <path stroke="#EC1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.67 5.31H3.33" />
+                                                <path stroke="#EC1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.655 2.497h4.69c.518 0 .938.42.938.938V5.31H6.717V3.435c0-.518.42-.938.938-.938Z" clip-rule="evenodd" />
+                                                <path stroke="#EC1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.641 9.062v4.69m-3.282-4.69v4.69" />
+                                            </svg>
+                                        </div>
+                                    </a>
+                                </div>
+                            <?php } else { ?>
+                                <a href="#">
+                                    <div class="request-stock">
+                                        Request Stock
+                                    </div>
+                                </a>
+                            <?php } ?>
+                        </div>
                     </div>
-                    #00001234
-                </div>
-                <div class="product-row">
-                    <div class="order-attribute">
-                        Time
-                    </div>
-                    #00001234
-                </div>
-                <div class="product-row">
-                    <div class="order-attribute">
-                        Date
-                    </div>
-                    #00001234
-                </div>
-                <table class="tx-detail">
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th style="text-align: end; color: #1B1B1B;">4 Items</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Teh Pucuk</td>
-                            <td style="text-align: end;">IDR 2.500,00</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-            </div>
-            <div class="modal-content" style="border-top: 2px #EBEBEB dashed;">
-                <div class="product-row">
-                    <div class="order-attribute">
-                        Total Price
-                    </div>
-                    #00001234
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div id="close-modal" class="modal-button" onclick="closeModal()">Close</div>
+                <?php } ?>
             </div>
         </div>
-    </div>
-
-    <div class="add-transaction-page content">
-        <div id="back-button" class="back-to-transaction">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4.16675 10H15.8334" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M8.33341 5.83337L4.16675 10" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M8.33341 14.1667L4.16675 10" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Back
-        </div>
-        
-        <div class="add-transaction-container">
-            <div style=" width:100%; padding: 16px;">    
-                <div class=" add-product">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="9.21552" cy="9.21552" r="5.88495" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M16.6695 16.6695L13.3765 13.3765" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    
-                    <input type="text" name="search-product" id="search-product"  placeholder="Search">
-                </div>
-            </div>
-
-            <table class="transaction" style="margin: 16px;">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>#00001234</td>
-                        <td>Teh Pucuk</td>
-                        <td>1</td>
-                        <td>IDR 5.000,00</td>
-                        <td><a>Cancel</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
-    <script src="script.js"></script>
 </body>
 
 </html>
