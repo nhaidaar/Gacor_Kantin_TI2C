@@ -83,8 +83,7 @@ margin-bottom: 8px;
 
 .login-form input {
 border-radius: 64px;
-padding-inline: 20px;
-padding-block: 16px;
+padding: 16px 20px;
 border: 1px #E1E1E1 solid;
 }
 
