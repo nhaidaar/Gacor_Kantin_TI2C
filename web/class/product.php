@@ -87,7 +87,7 @@ class Product
 
     function showProduct($row)
     {
-        echo '<div class="product-container">
+        echo '<div class="product-container" >
                 <div class="product-preview">
                     <div class="product-stock" ' . ($row['stocks'] < 10 ? 'style="color: #EC1A1A;"' : '') . '>'
             . $row['stocks'] . ' Stock(s)
@@ -115,8 +115,7 @@ class Product
                             Edit Product
                         </div>
                     </a>
-                    <a href="#">
-                        <div class="delete-product">
+                        <div data-id="' . $row['id'] . '" onclick="openModal()" class="delete-product">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
                                 <path stroke="#EC1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.952 17.503H7.048c-.98 0-1.795-.755-1.87-1.732l-.805-10.46h11.254l-.804 10.46a1.876 1.876 0 0 1-1.87 1.732v0Z" clip-rule="evenodd" />
                                 <path stroke="#EC1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.67 5.31H3.33" />
@@ -124,7 +123,6 @@ class Product
                                 <path stroke="#EC1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.641 9.062v4.69m-3.282-4.69v4.69" />
                             </svg>
                         </div>
-                    </a>
                 </div>';
         } else {
             echo '<a href="#">

@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                             <div class="request-stock" style="width: max-content;">Browse Image</div>
-                            <input type="file" accept="image/*" name="" id="input-file">
+                            <input type="file" accept="image/*" name="" id="input-file" hidden>
                         </label>
                         <div class="myform">
                             <label for="name">Product Name</label>
