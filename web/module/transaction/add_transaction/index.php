@@ -50,15 +50,23 @@
             <div class="modal-footer" style="display: flex; flex-direction: column; gap: 12px;">
                 <div class="product-row">
                     <div class="order-attribute">
-                        Order ID
+                        Total Price
                     </div>
-                    #00000001
+                    IDR 50.000.000,00
                 </div>
                 <div class="product-row">
                     <div class="order-attribute">
-                        Time
+                        Change
                     </div>
-                    #00000001
+                    IDR 0,00
+                </div>
+                <div></div>
+                <div class="myform">
+                    <label for="pay">Pay</label>
+                    <div class="input-box">
+                        IDR
+                        <input type="number" name="pay" id="pay" style="width: 100%; border: none; outline: none;" placeholder="000">
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

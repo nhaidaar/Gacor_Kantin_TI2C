@@ -36,8 +36,8 @@
                 <tr>
                     <th>Order ID</th>
                     <th>Product</th>
-                    <th>Time</th>
                     <th>Date</th>
+                    <th>Time</th>
                     <th>Total Price</th>
                     <th></th>
                 </tr>
