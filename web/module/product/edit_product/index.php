@@ -1,12 +1,21 @@
+<?php
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+}
+
+require 'class/product.php';
+$product = new Product($koneksi);
+$row = $product->fetchProduct($id);
+?>
 <div class="content">
     <div class="header-fixed">
         <div class="htitle">
-            <?= $_SESSION['level'] == 'admin' ? 'Add Product' : 'Request Product' ?>
+            Edit Product
         </div>
     </div>
     <div class="header">
         <div class="htitle">
-            <?= $_SESSION['level'] == 'admin' ? 'Add Product' : 'Request Product' ?>
+            Edit Product
         </div>
     </div>
     <div class="container">
@@ -29,7 +38,7 @@
                 </svg>
                 <div style="display: flex; flex-direction: column; gap: 4px;">
                     <div class="modal-header-title" style="font-weight: 500; font-size: 16px;">
-                        <?= $_SESSION['level'] == 'admin' ? 'Add Product' : 'Request Product' ?>
+                        Edit Product
                     </div>
                     <div class="modal-header-sub" style="font-weight: 400; color: #7B7B7B; font-size: 14px;">
                         Select and upload the files of your choice
@@ -40,26 +49,13 @@
                 <div class="modal-content">
                     <div style="display: flex; flex-direction: column; gap: 24px;">
                         <label for="input-file" id="drop-area">
-                            <img id="preview-image" style="width: 400px; height: 300px; display: none; object-fit:contain;">
-                            <div class="input-desc">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
-                                    <path stroke="#1B1B1B" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m15 15-3-3m0 0-3 3m3 5v-8m-4 7H6a4 4 0 0 1 0-8l-.01-.07a6.071 6.071 0 1 1 12.02 0L18 11a4 4 0 0 1 0 8h-2" />
-                                </svg>
-                                <div style="display: flex; flex-direction:column; gap: 8px;">
-                                    <div class="modal-header-title" style="font-weight: 500; font-size: 16px;">
-                                        Choose a image or drag & drop it here.
-                                    </div>
-                                    <div class="modal-header-sub" style="font-weight: 400; color: #7B7B7B; font-size: 14px;">
-                                        JPEG or PNG up to 10 MB.
-                                    </div>
-                                </div>
-                            </div>
+                            <img id="preview-image" src="assets/<?= $row['product_name'] ?>.png" style="width: 400px; height: 300px; object-fit:contain;">
                             <div class="request-stock" style="width: max-content;">Browse Image</div>
-                            <input type="file" accept="image/*" name="" id="input-file">
+                            <input type="file" accept="image/*" name="" id="input-file" hidden>
                         </label>
                         <div class="myform">
                             <label for="name">Product Name</label>
-                            <input type="text" name="name" id="name" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; outline: none" placeholder="Name of product">
+                            <input type="text" name="name" id="name" value=" <?= $row['product_name'] ?>" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; outline: none" placeholder="Name of product">
                         </div>
                         <div class="myform">
                             <label>Category</label>
@@ -68,33 +64,33 @@
                                 require 'class/category.php';
                                 $category = new Category($koneksi);
                                 $result = $category->fetchCategory();
-                                $category->showAllCategoryRadio($result);
+                                $category->showSelectedCategoryRadio($result, $row['category_id']);
                                 ?>
                             </div>
                         </div>
                         <div class="myform">
                             <label for="desc">Description</label>
-                            <input type="text" name="desc" id="desc" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; " placeholder="Ex. “Isi ayam suwir”">
+                            <input type="text" name="desc" id="desc" value="<?= $row['product_name'] ?>" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; " placeholder="Ex. “Isi ayam suwir”">
                         </div>
                         <div class="myform">
                             <label for="bprice">Buying Price</label>
                             <div class="input-box">
                                 IDR
-                                <input type="number" name="bprice" id="bprice" style="width: 100%; border: none; outline: none;" placeholder="000">
+                                <input type="number" name="bprice" id="bprice" value="<?= $row['buying_price'] ?>" style="width: 100%; border: none; outline: none;" placeholder="000">
                             </div>
                         </div>
                         <div class="myform">
                             <label for="sprice">Selling Price</label>
                             <div class="input-box">
                                 IDR
-                                <input type="number" name="sprice" id="sprice" style="width: 100%; border: none; outline: none;" placeholder="000">
+                                <input type="number" name="sprice" id="sprice" value="<?= $row['selling_price'] ?>" style="width: 100%; border: none; outline: none;" placeholder="000">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" style="display: flex; gap: 16px;">
+                <div class="modal-footer" style="display: flex;">
                     <div onclick="history.back()" class="request-stock" style="padding: 16px;">Cancel</div>
-                    <div id="add-product" class="request-stock" style="padding: 16px; background-color: #FFC300;"><?= $_SESSION['level'] == 'admin' ? 'Add Product' : 'Request Product' ?></div>
+                    <div id="add-product" class="request-stock" style="padding: 16px; background-color: #FFC300;">Edit Product</div>
                 </div>
             </form>
         </div>

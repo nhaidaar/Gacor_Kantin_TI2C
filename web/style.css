@@ -234,7 +234,6 @@ display: flex;
 align-items: center;
 }
 
-
 .analytics .container .item-row .percentage-row img {
 height: 12px;
 width: 12px;
@@ -518,6 +517,51 @@ align-items: flex-start;
 gap: 16px;
 }
 
+.back-button {
+cursor: pointer; 
+border-radius: 64px; 
+padding: 10.5px 16px; 
+border: 1px #EBEBEB solid; 
+display: flex; 
+align-items: center; 
+gap: 8px;
+}
+
+.modal-header2 {
+display: flex; 
+width: 100%; 
+padding: 16px; 
+border-bottom: 1px solid #EBEBEB; 
+gap: 14px; 
+align-items:center;
+}
+
+.input-box {
+    display: flex; 
+    align-items: center; 
+    border-radius: 8px; 
+    padding: 16px; 
+    border: 1px #E1E1E1 solid; 
+    gap: 4px;
+}
+
+.myform {
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px;
+}
+
+#drop-area {
+    padding: 40px; 
+    text-align:center; 
+    border-radius: 12px; 
+    display:flex; 
+    flex-direction:column; 
+    gap: 16px; 
+    align-items:center; 
+    border: 2px #EBEBEB dashed;
+}
+
 /* falah css : */
 
 .searchbar {
@@ -610,4 +654,23 @@ border: 1px solid #ebebeb;
 
 .modal-button:hover {
 background-color: #ebebeb;
+}
+
+.category-option {
+display: none;
+}
+
+.category-label {
+width: 100%; 
+padding: 16px; 
+cursor: pointer; 
+text-align: center; 
+border-radius: 8px; 
+border: 1px solid #ebebeb;
+}
+
+.category-option:checked + .category-label {
+color: #ffc300;
+background-color: #fff7dd;
+border: 1px solid #ffc300 !important;
 }

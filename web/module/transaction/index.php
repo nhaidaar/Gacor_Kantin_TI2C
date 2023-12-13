@@ -13,7 +13,7 @@
         <div class="product-row">
             <div></div>
             <div style="gap: 8px; display: flex;">
-                <div class="edit-product">
+                <div onclick="openModal()" class="edit-product" id="filter">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
                         <path stroke="#1B1B1B" stroke-linecap="round" stroke-width="1.5" d="M2.5 5.833h15M5 10h10m-6.667 4.167h3.334" />
                     </svg>
@@ -44,57 +44,15 @@
             </thead>
             <tbody>
                 <?php
+                require 'class/transaction.php';
+                $transaction = new Transaction($koneksi);
+
                 if (isset($_GET['datestart']) && isset($_GET['dateend'])) {
-                    $datestart = $_GET['datestart'];
-                    $dateend = $_GET['dateend'];
-                    $query = "SELECT 
-                            t.id AS order_id,
-                            GROUP_CONCAT(CONCAT(ti.qty, 'pcs ', p.product_name) SEPARATOR '\n') AS product,
-                            TIME(t.date) AS transaction_time,
-                            DATE(t.date) AS transaction_date,
-                            SUM(ti.total_price) AS total_price
-                        FROM 
-                            transactions t
-                        INNER JOIN 
-                            transaction_items ti ON t.id = ti.transactions_id
-                        INNER JOIN 
-                            product p ON ti.product_id = p.id
-                        WHERE
-                            t.date BETWEEN $datestart AND $dateend
-                        GROUP BY 
-                            t.id
-                        ORDER BY t.date DESC
-                        ";
+                    $transaction->fetchTransactionByDate($_GET['datestart'], $_GET['dateend']);
                 } else {
-                    $query = "SELECT 
-                            t.id AS order_id,
-                            GROUP_CONCAT(CONCAT(ti.qty, 'pcs ', p.product_name) SEPARATOR '\n') AS product,
-                            TIME(t.date) AS transaction_time,
-                            DATE(t.date) AS transaction_date,
-                            SUM(ti.total_price) AS total_price
-                        FROM 
-                            transactions t
-                        INNER JOIN 
-                            transaction_items ti ON t.id = ti.transactions_id
-                        INNER JOIN 
-                            product p ON ti.product_id = p.id
-                        GROUP BY 
-                            t.id
-                        ORDER BY t.date DESC
-                        ";
+                    $transaction->fetchAllTransaction(null);
                 }
-                $result = mysqli_query($koneksi, $query);
-                while ($row = mysqli_fetch_assoc($result)) {
                 ?>
-                    <tr>
-                        <td><?= $row['order_id']; ?></td>
-                        <td><?= $row['product']; ?></td>
-                        <td><?= $row['transaction_time']; ?></td>
-                        <td><?= date("d-m-Y", strtotime($row['transaction_date'])); ?></td>
-                        <td>IDR <?= number_format($row['total_price'], 2, ',', '.'); ?></td>
-                        <td><a href="index.php?page=transaction/check_details&id=<?= $row['order_id']; ?>">View Detail</a></td>
-                    </tr>
-                <?php } ?>
             </tbody>
         </table>
     </div>
@@ -103,57 +61,49 @@
 <div id="modal" class="modal-transaction">
     <div class="modal-container">
         <div class="modal-header">
-            Detail Transaction
+            Filter by Date
         </div>
-        <div class="modal-content">
-            <div class="product-row">
-                <div class="order-attribute">
-                    Order ID
-                </div>
-                #00001234
+        <div class="modal-content" style="display: flex; gap: 12px;">
+            <div class="myform">
+                <label for="datestart">Date start :</label>
+                <input type="date" name="datestart" id="datestart" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid;">
             </div>
-            <div class="product-row">
-                <div class="order-attribute">
-                    Time
-                </div>
-                #00001234
-            </div>
-            <div class="product-row">
-                <div class="order-attribute">
-                    Date
-                </div>
-                #00001234
-            </div>
-            <table class="tx-detail">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th style="text-align: end; color: #1B1B1B;">4 Items</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Teh Pucuk</td>
-                        <td style="text-align: end;">IDR 2.500,00</td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-        <div class="modal-content" style="border-top: 2px #EBEBEB dashed;">
-            <div class="product-row">
-                <div class="order-attribute">
-                    Total Price
-                </div>
-                #00001234
+            <div class="myform">
+                <label for="dateend">Date end :</label>
+                <input type="date" name="dateend" id="dateend" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid;">
             </div>
         </div>
-        <div class="modal-footer">
-            <div id="close-modal" class="modal-button" onclick="closeModal()">Close</div>
+        <div class=" modal-footer" style="display: flex; gap: 14px;">
+            <div onclick="closeModal()" class="request-stock">Close</div>
+            <div id="submit" class="request-stock" style="background-color: #FFC300;">Submit</div>
         </div>
     </div>
 </div>
 <script src="script.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#submit').click(function(e) {
+            e.preventDefault();
+            var datestart = $('#datestart').val();
+            var dateend = $('#dateend').val();
+
+            // make the date is plus 1
+            var nextDay = new Date(dateend);
+            nextDay.setDate(nextDay.getDate() + 1);
+
+            var formattedDateEnd = nextDay.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            var url = "index.php?page=transaction&datestart=" + encodeURIComponent(datestart) + "&dateend=" + encodeURIComponent(formattedDateEnd);
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function(response) {
+                    window.location.href = url;
+                },
+            });
+        });
+    });
+</script>
 </body>
 
 </html>
