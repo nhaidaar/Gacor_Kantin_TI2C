@@ -234,7 +234,6 @@ display: flex;
 align-items: center;
 }
 
-
 .analytics .container .item-row .percentage-row img {
 height: 12px;
 width: 12px;
@@ -429,6 +428,10 @@ border-collapse: collapse;
 table-layout: fixed;
 }
 
+td :first-child {
+width: 100px;
+}
+
 th{
 width: 100vw;
 padding: 12px 16px;
@@ -514,6 +517,51 @@ align-items: flex-start;
 gap: 16px;
 }
 
+.back-button {
+cursor: pointer; 
+border-radius: 64px; 
+padding: 10.5px 16px; 
+border: 1px #EBEBEB solid; 
+display: flex; 
+align-items: center; 
+gap: 8px;
+}
+
+.modal-header2 {
+display: flex; 
+width: 100%; 
+padding: 16px; 
+border-bottom: 1px solid #EBEBEB; 
+gap: 14px; 
+align-items:center;
+}
+
+.input-box {
+    display: flex; 
+    align-items: center; 
+    border-radius: 8px; 
+    padding: 16px; 
+    border: 1px #E1E1E1 solid; 
+    gap: 4px;
+}
+
+.myform {
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px;
+}
+
+#drop-area {
+    padding: 40px; 
+    text-align:center; 
+    border-radius: 12px; 
+    display:flex; 
+    flex-direction:column; 
+    gap: 16px; 
+    align-items:center; 
+    border: 2px #EBEBEB dashed;
+}
+
 /* falah css : */
 
 .searchbar {
@@ -527,6 +575,7 @@ border-radius: 8px;
 }
 
 .searchbox {
+width: 100%;
 font-size: 16px;
 margin-left: 12px;
 background-color: transparent;
@@ -575,12 +624,12 @@ outline: none;
 }
     
 .modal-header {
-    font-size: 24px;
-    font-weight: 500;
-    text-align: center;
-    width: 100%;
-    padding: 16px;
-    border-bottom: 1px solid #EBEBEB;
+font-size: 24px;
+font-weight: 500;
+text-align: center;
+width: 100%;
+padding: 16px;
+border-bottom: 1px solid #EBEBEB;
 }
     
 .modal-content {
@@ -612,83 +661,3 @@ outline: none;
 .modal-button:hover {
     background-color: #ebebeb;
 }
-
-.add-transaction-page {
-    /* display: none; */
-    position: absolute;
-    padding: 24px;
-}
-
-
-.back-to-transaction {
-    display: inline-flex;
-    justify-items: center;
-    cursor: pointer;
-    margin-bottom: 32px;
-    padding: 10px 16px;
-    font-size: 16px;
-    border-radius: 64px;
-    border: 1px solid #ebebeb;
-    gap: 8px;
-}
-
-.add-transaction-container {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    border-radius: 16px;
-    border: 1px solid #ebebeb;
-}
-
-.add-product {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 10px 8px;
-    background-color: #f4f4f4;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    gap: 12px;
-}
-
-.add-product input[type="text"] {
-    width: 100%;
-    font-size: 16px;
-    color: #AFAFAF;
-    outline: none;
-    border: none;
-    background-color: transparent;
-    font-size: 24px;
-    font-weight: 500;
-    text-align: center;
-    width: 100%;
-    padding: 16px;
-    border-bottom: 1px solid #EBEBEB;
-}
-
-.modal-content {
-    padding: 16px;
-    display: flex;
-    flex-direction:column;
-    gap: 12px;
-}
-
-.order-attribute {
-    color: #AFAFAF; 
-    font-size: 16px;
-}
-
-.modal-footer {
-    padding: 16px;
-    border-top: 1px solid #EBEBEB;
-}
-
-.modal-button {
-    text-align: center;
-    padding: 16px;
-    background-color: #fff;
-    cursor: pointer;
-    border-radius: 8px;
-    border: 1px solid #ebebeb;
-}
-
