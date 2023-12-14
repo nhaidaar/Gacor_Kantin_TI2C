@@ -1,3 +1,9 @@
+<?php
+require 'class/transaction.php';
+require 'class/product.php';
+$transaction = new Transaction($koneksi);
+$product = new Product($koneksi);
+?>
 <div class="content">
     <div class="header-fixed">
         <div class="htitle">
@@ -111,8 +117,6 @@
         <div style="height: 16px;"></div>
         <div class="product-list">
             <?php
-            require 'class/product.php';
-            $product = new Product($koneksi);
             $product->showPopularProduct();
             ?>
         </div>
@@ -141,8 +145,6 @@
                 </thead>
                 <tbody>
                     <?php
-                    require 'class/transaction.php';
-                    $transaction = new Transaction($koneksi);
                     $transaction->fetchAllTransaction(5);
                     ?>
                 </tbody>

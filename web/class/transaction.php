@@ -56,6 +56,8 @@ class Transaction
 
     function fetchTransactionByDate($datestart, $dateend)
     {
+        $datestart = $datestart . ' 00:00:00';
+        $dateend = $dateend . ' 23:59:59';
         $query = "SELECT 
                     t.id AS order_id,
                     GROUP_CONCAT(CONCAT(ti.qty, 'pcs ', p.product_name) SEPARATOR '\n') AS product,
@@ -69,7 +71,7 @@ class Transaction
                 INNER JOIN 
                     product p ON ti.product_id = p.id
                 WHERE
-                    t.date >= '$datestart' AND t.date <= '$dateend'
+                    t.date BETWEEN '$datestart' AND '$dateend'
                 GROUP BY 
                     t.id
                 ORDER BY t.date DESC

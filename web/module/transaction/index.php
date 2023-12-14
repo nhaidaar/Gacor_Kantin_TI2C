@@ -1,3 +1,7 @@
+<?php
+require 'class/transaction.php';
+$transaction = new Transaction($koneksi);
+?>
 <div class="content">
     <div class="header-fixed">
         <div class="htitle">
@@ -19,14 +23,16 @@
                     </svg>
                     Filter
                 </div>
-                <a href="index.php?page=transaction/add_transaction/">
-                    <div class="edit-product-yellow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
-                            <path stroke="#1B1B1B" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 10h10m-5 5V5" />
-                        </svg>
-                        Add Transaction
-                    </div>
-                </a>
+                <?php if ($_SESSION['level'] == 'user') { ?>
+                    <a href="index.php?page=transaction/add_transaction/">
+                        <div class="edit-product-yellow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
+                                <path stroke="#1B1B1B" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 10h10m-5 5V5" />
+                            </svg>
+                            Add Transaction
+                        </div>
+                    </a>
+                <?php } ?>
             </div>
         </div>
         <div style="height: 32px;"></div>
@@ -44,9 +50,6 @@
             </thead>
             <tbody>
                 <?php
-                require 'class/transaction.php';
-                $transaction = new Transaction($koneksi);
-
                 if (isset($_GET['datestart']) && isset($_GET['dateend'])) {
                     $transaction->fetchTransactionByDate($_GET['datestart'], $_GET['dateend']);
                 } else {
@@ -66,11 +69,11 @@
         <div class="modal-content" style="display: flex; gap: 12px;">
             <div class="myform">
                 <label for="datestart">Date start :</label>
-                <input type="date" name="datestart" id="datestart" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid;">
+                <input type="date" name="datestart" id="datestart" value="<?= isset($_GET['datestart']) ? $_GET['datestart'] : "" ?>" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid;">
             </div>
             <div class="myform">
                 <label for="dateend">Date end :</label>
-                <input type="date" name="dateend" id="dateend" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid;">
+                <input type="date" name="dateend" id="dateend" value="<?= isset($_GET['dateend']) ? $_GET['dateend'] : "" ?>" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid;">
             </div>
         </div>
         <div class=" modal-footer" style="display: flex; gap: 14px;">
@@ -86,13 +89,7 @@
             e.preventDefault();
             var datestart = $('#datestart').val();
             var dateend = $('#dateend').val();
-
-            // make the date is plus 1
-            var nextDay = new Date(dateend);
-            nextDay.setDate(nextDay.getDate() + 1);
-
-            var formattedDateEnd = nextDay.toISOString().split('T')[0]; // Format as YYYY-MM-DD
-            var url = "index.php?page=transaction&datestart=" + encodeURIComponent(datestart) + "&dateend=" + encodeURIComponent(formattedDateEnd);
+            var url = "index.php?page=transaction&datestart=" + encodeURIComponent(datestart) + "&dateend=" + encodeURIComponent(dateend);
 
             $.ajax({
                 type: "GET",
