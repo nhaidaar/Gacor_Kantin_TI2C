@@ -20,7 +20,7 @@
         </div>
         <div style="height: 32px;"></div>
         <div style="border: 1px #EBEBEB solid; border-radius: 16px;">
-            <div class="modal-header">
+            <div class="modal-header" style="display: flex; flex-direction: column; gap: 8px;">
                 <div class="searchbar" style="width: 100%;">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="9.21552" cy="9.21552" r="5.88495" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -28,22 +28,27 @@
                     </svg>
                     <input type="text" name="search" class="searchbox" placeholder="Search">
                 </div>
+                <div class="search-result" style="display: none;">
+
+                </div>
             </div>
             <div class="modal-content">
                 <table class="tx-detail">
                     <thead>
                         <tr>
-                            <th>Order ID</th>
+                            <th>Product ID</th>
                             <th>Product</th>
+                            <th>Recent Stock(s)</th>
                             <th>Quantity</th>
-                            <th>Price</th>
+                            <th>@</th>
+                            <th>Total Price</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
+                    <tbody id="order-list">
+                        <!-- <tr>
                             <td>No results found.</td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -52,13 +57,17 @@
                     <div class="order-attribute">
                         Total Price
                     </div>
-                    IDR 50.000.000,00
+                    <div>
+                        IDR <span id="total_price">0</span>
+                    </div>
                 </div>
                 <div class="product-row">
                     <div class="order-attribute">
                         Change
                     </div>
-                    IDR 0,00
+                    <div>
+                        IDR <span id="change">0</span>
+                    </div>
                 </div>
                 <div></div>
                 <div class="myform">
@@ -70,15 +79,83 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <div class="request-stock" style="background-color:#FFC300;">
-                    Submit
+                <div class="request-stock" style="background-color:#FFC300; padding: 16px;">
+                    Place Order
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-</div>
+<script>
+    $(document).ready(function() {
+        $('.searchbox').keyup(function(e) {
+            var input = $(this).val();
+
+            const box = document.querySelector('.search-result');
+            if (input != '') {
+                box.style.display = 'block';
+                $.ajax({
+                    url: "fungsi/search_transaction.php",
+                    type: "POST",
+                    data: {
+                        input: input
+                    },
+                    success: function(response) {
+                        $('.search-result').html(response);
+                    }
+                });
+            } else {
+                box.style.display = 'none';
+            }
+        });
+        $(document).on('click', '.search-result-container', function() {
+            var id = $(this).data('id');
+            const box = document.querySelector('.search-result');
+            box.style.display = 'none';
+            $.ajax({
+                type: "POST",
+                url: "fungsi/get_product_detail.php",
+                data: {
+                    id: id
+                },
+                success: function(response) {
+                    $('#order-list').append(response);
+                }
+            });
+        });
+
+        // qty * sellingprice = totalprice
+        $(document).on('input change', '#qty', function() {
+            var qty = $(this).val();
+            var sellingPrice = parseFloat($(this).closest('tr').find('td:eq(4)').text());
+            var totalPrice = qty * sellingPrice;
+            $(this).closest('tr').find('td:eq(5)').text(totalPrice);
+        });
+
+        // remove button
+        $(document).on('click', '#cancel-row', function() {
+            $(this).closest('tr').remove();
+        });
+    });
+
+    // Get references to the elements
+    const total_price = document.getElementById('total_price');
+    const pay = document.getElementById('pay');
+    const change = document.getElementById('change');
+
+    // Add event listener for input on the pay field
+    pay.addEventListener('input', function() {
+        // Get the values and parse them as numbers
+        const totalPriceValue = parseFloat(total_price.innerText);
+        const payValue = parseFloat(pay.value) || 0;
+
+        // Calculate the change
+        const calculatedChange = (payValue - totalPriceValue).toFixed(2);
+
+        // Display the change in the #change span
+        change.innerText = calculatedChange;
+    });
+</script>
 </body>
 
 </html>

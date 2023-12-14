@@ -12,7 +12,7 @@ class Product
     function fetchProduct($id)
     {
         $query = "SELECT
-                p.id, p.product_name, p.stocks,
+                p.id, p.product_name, p.stocks, p.description,
                 p.buying_price, p.selling_price, c.category_name,
                 c.id AS category_id
                 FROM 
@@ -115,7 +115,8 @@ class Product
                             Edit Product
                         </div>
                     </a>
-                        <div data-id="' . $row['id'] . '" onclick="openModal()" class="delete-product">
+                    <a href="index.php?page=product/delete_product&id=' . $row['id'] . '">
+                        <div class="delete-product">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
                                 <path stroke="#EC1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.952 17.503H7.048c-.98 0-1.795-.755-1.87-1.732l-.805-10.46h11.254l-.804 10.46a1.876 1.876 0 0 1-1.87 1.732v0Z" clip-rule="evenodd" />
                                 <path stroke="#EC1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.67 5.31H3.33" />
@@ -123,9 +124,10 @@ class Product
                                 <path stroke="#EC1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.641 9.062v4.69m-3.282-4.69v4.69" />
                             </svg>
                         </div>
+                    </a>
                 </div>';
         } else {
-            echo '<a href="#">
+            echo '<a href="index.php?page=product/request_stock&id=' . $row['id'] . '">
                     <div class="request-stock">
                         Request Stock
                     </div>
@@ -133,5 +135,39 @@ class Product
         }
         echo '</div>
             </div>';
+    }
+
+    function searchProductForTransaction($search)
+    {
+        $query = "SELECT
+                    p.id, p.product_name, p.stocks,
+                    p.buying_price, p.selling_price, c.category_name
+                FROM 
+                    product AS p
+                INNER JOIN 
+                    category AS c ON p.category_id = c.id
+                WHERE 
+                    p.product_name LIKE '%$search%'
+                ";
+        $result = mysqli_query($this->koneksi, $query);
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $this->showProductInList($row, false);
+            }
+        } else {
+            $row = mysqli_fetch_assoc($result);
+            $this->showProductInList($row, true);
+        }
+    }
+
+    function showProductInList($row, bool $notfound)
+    {
+        if ($notfound) {
+            echo '<span style="font-size: 14px; padding: 8px; font-weight: 400;">No results found.</span>';
+        } else {
+            echo '<div data-id="' . $row['id'] . '" class="search-result-container">
+            ' . $row['product_name'] . ' (Stocks: ' . $row['stocks'] . ')
+            </div>';
+        }
     }
 }

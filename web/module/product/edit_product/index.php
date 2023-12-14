@@ -70,7 +70,11 @@ $row = $product->fetchProduct($id);
                         </div>
                         <div class="myform">
                             <label for="desc">Description</label>
-                            <input type="text" name="desc" id="desc" value="<?= $row['product_name'] ?>" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; " placeholder="Ex. “Isi ayam suwir”">
+                            <input type="text" name="desc" id="desc" value="<?= $row['description'] ?>" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; " placeholder="Ex. “Isi ayam suwir”">
+                        </div>
+                        <div class="myform">
+                            <label for="stock">Stock(s)</label>
+                            <input type="number" name="stock" id="stock" value="<?= $row['stocks'] ?>" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; " placeholder="0">
                         </div>
                         <div class="myform">
                             <label for="bprice">Buying Price</label>
@@ -88,9 +92,9 @@ $row = $product->fetchProduct($id);
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" style="display: flex;">
+                <div class="modal-footer" style="display: flex; gap: 8px;">
                     <div onclick="history.back()" class="request-stock" style="padding: 16px;">Cancel</div>
-                    <div id="add-product" class="request-stock" style="padding: 16px; background-color: #FFC300;">Edit Product</div>
+                    <div id="add-product" class="request-stock" style="padding: 16px; background-color: #FFC300; border: 1px solid transparent;">Edit Product</div>
                 </div>
             </form>
         </div>

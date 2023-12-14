@@ -33,7 +33,7 @@ $row = mysqli_fetch_assoc($result);
                     <div class="order-attribute">
                         Order ID
                     </div>
-                    <?= $row['order_id'] ?>
+                    #<?= sprintf('%08s', strtoupper(dechex($row['order_id']))) ?>
                 </div>
                 <div class="product-row">
                     <div class="order-attribute">
@@ -45,7 +45,7 @@ $row = mysqli_fetch_assoc($result);
                     <div class="order-attribute">
                         Date
                     </div>
-                    <?= $row['order_date'] ?>
+                    <?= date("d-m-Y", strtotime($row['order_date'])) ?>
                 </div>
                 <table class="tx-detail">
                     <thead>
@@ -62,7 +62,7 @@ $row = mysqli_fetch_assoc($result);
                                 <td><?= $row['product_name'] ?></td>
                                 <td><?= $row['qty'] ?></td>
                                 <td><?= $row['selling_price'] ?></td>
-                                <td style="text-align: end;">IDR <?= $row['total_price'] ?></td>
+                                <td style="text-align: end;">IDR <?= number_format($row['total_price'], 2, ',', '.') ?></td>
                             </tr>
                         <?php } while ($row = mysqli_fetch_assoc($result)); ?>
                     </tbody>
@@ -81,7 +81,7 @@ $row = mysqli_fetch_assoc($result);
                     $result = mysqli_query($koneksi, $query);
                     $row = mysqli_fetch_assoc($result);
                     ?>
-                    IDR <?= $row['tagihan'] ?>
+                    IDR <?= number_format($row['tagihan'], 2, ',', '.') ?>
                 </div>
             </div>
         </div>

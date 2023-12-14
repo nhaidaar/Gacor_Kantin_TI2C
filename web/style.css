@@ -562,6 +562,27 @@ align-items:center;
     border: 2px #EBEBEB dashed;
 }
 
+.search-result {
+    position: absolute;
+    background-color: #FFF;
+    transform: translate(0px, 50px);
+    border-radius: 8px; 
+    border:1px solid #EBEBEB; 
+    padding: 10px 8px;
+}
+
+.search-result-container{
+    cursor: pointer;
+    padding: 6px 8px; 
+    font-size: 14px; 
+    font-weight: 400; 
+    border-radius: 6px;
+}
+
+.search-result-container:hover {
+    background-color: #E4E4E4;
+}
+
 /* falah css : */
 
 .searchbar {
