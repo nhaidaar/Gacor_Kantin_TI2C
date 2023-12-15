@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 13, 2023 at 02:27 PM
+-- Generation Time: Dec 15, 2023 at 04:31 AM
 -- Server version: 10.11.2-MariaDB
 -- PHP Version: 8.0.28
 
@@ -30,9 +30,10 @@ SET time_zone = "+00:00";
 CREATE TABLE `add_product_log` (
   `id` int(11) NOT NULL,
   `product_name` varchar(225) NOT NULL,
-  `img_url` varchar(225) NOT NULL,
+  `date` date NOT NULL,
   `category_id` int(11) NOT NULL,
-  `stock` int(11) NOT NULL,
+  `description` varchar(225) NOT NULL,
+  `stocks` int(11) NOT NULL,
   `buying_price` double NOT NULL,
   `selling_price` double NOT NULL,
   `status` enum('approved','pending','rejected','') NOT NULL
@@ -42,9 +43,9 @@ CREATE TABLE `add_product_log` (
 -- Dumping data for table `add_product_log`
 --
 
-INSERT INTO `add_product_log` (`id`, `product_name`, `img_url`, `category_id`, `stock`, `buying_price`, `selling_price`, `status`) VALUES
-(1, 'Pop Mie Rasa Ayamn', '', 1, 50, 5000, 7000, 'approved'),
-(2, 'Teh Pucuk Harum', '', 2, 100, 3000, 4000, 'approved');
+INSERT INTO `add_product_log` (`id`, `product_name`, `date`, `category_id`, `description`, `stocks`, `buying_price`, `selling_price`, `status`) VALUES
+(1, 'Pop Mie Rasa Ayam', '2023-12-01', 1, '', 50, 5000, 7000, 'approved'),
+(2, 'Teh Pucuk Harum', '2023-12-10', 2, '', 100, 3000, 4000, 'pending');
 
 -- --------------------------------------------------------
 
@@ -55,7 +56,7 @@ INSERT INTO `add_product_log` (`id`, `product_name`, `img_url`, `category_id`, `
 CREATE TABLE `add_stock_log` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `stock` int(11) NOT NULL
+  `stocks` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -95,7 +96,8 @@ CREATE TABLE `category` (
 
 INSERT INTO `category` (`id`, `category_name`) VALUES
 (1, 'Snack'),
-(2, 'Beverage');
+(2, 'Beverage'),
+(3, 'Meal');
 
 -- --------------------------------------------------------
 
@@ -107,7 +109,8 @@ CREATE TABLE `product` (
   `id` int(11) NOT NULL,
   `product_name` varchar(225) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `stock` int(100) NOT NULL,
+  `description` varchar(225) NOT NULL,
+  `stocks` int(100) NOT NULL,
   `buying_price` double NOT NULL,
   `selling_price` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -116,11 +119,11 @@ CREATE TABLE `product` (
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`id`, `product_name`, `category_id`, `stock`, `buying_price`, `selling_price`) VALUES
-(1, 'Cheetos 15g', 1, 100, 1500, 2500),
-(2, 'Taro Net 32g', 1, 100, 3500, 5000),
-(3, 'Potabee Potato Chips 15g', 1, 100, 1500, 2500),
-(4, 'Garuda Rosta 25g', 1, 100, 4000, 5000);
+INSERT INTO `product` (`id`, `product_name`, `category_id`, `description`, `stocks`, `buying_price`, `selling_price`) VALUES
+(1, 'Cheetos 15g', 1, '', 100, 1500, 2500),
+(2, 'Taro Net 32g', 1, '', 100, 3500, 5000),
+(3, 'Potabee Potato Chips 15g', 1, '', 100, 1500, 2500),
+(4, 'Garuda Rosta 25g', 1, '', 100, 4000, 5000);
 
 -- --------------------------------------------------------
 
@@ -275,7 +278,7 @@ ALTER TABLE `add_stock_log`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `product`
