@@ -35,7 +35,7 @@ color: #000;
 }
 
 .sidebar {
-z-index: 1;
+z-index: 2;
 width: 280px;
 height: 100%;
 background-color: #fff;
@@ -144,7 +144,7 @@ width: calc(100vw - 280px);
 
 .header-fixed {
 width: 100%;
-z-index: 1;
+z-index: 2;
 position: fixed;
 border-bottom: 1px #EBEBEB solid;
 background-color: #fff;
@@ -300,7 +300,13 @@ align-items: center;
 max-height: 140px;
 }
 
+.product-img-grayscale{
+max-height: 140px;
+filter: grayscale(100%);
+}
+
 .product-stock {
+z-index: 1;
 padding: 8px 16px;
 left: 8px; 
 top: 8px; 
@@ -419,13 +425,12 @@ font-weight: 500;
 }
 
 table {
-border: 1px solid #EBEBEB;
 width: 100%;
 display: block;
 overflow-x: auto;
 text-align: left;
 border-collapse: collapse;
-table-layout: fixed;
+border-radius: 0px 0px 8px 8px;
 }
 
 td :first-child {
@@ -466,6 +471,13 @@ font-size: 16px;
 white-space: nowrap;
 }
 
+button {
+font-family: "SF Pro Display";
+font-size: medium;
+text-align: center;
+align-items: center;
+}
+
 .view-button {
 padding: 8px 12px;
 border-radius: 8px;
@@ -479,6 +491,7 @@ white-space: nowrap;
 .notif-box {
 display: flex; 
 justify-content: space-between; 
+gap: 16px;
 align-items: center; 
 border-bottom: 1px #EBEBEB solid; 
 padding: 16px;
@@ -537,50 +550,50 @@ align-items:center;
 }
 
 .input-box {
-    display: flex; 
-    align-items: center; 
-    border-radius: 8px; 
-    padding: 16px; 
-    border: 1px #E1E1E1 solid; 
-    gap: 4px;
+display: flex; 
+align-items: center; 
+border-radius: 8px; 
+padding: 16px; 
+border: 1px #E1E1E1 solid; 
+gap: 4px;
 }
 
 .myform {
-    display: flex; 
-    flex-direction: column; 
-    gap: 8px;
+display: flex; 
+flex-direction: column; 
+gap: 8px;
 }
 
 #drop-area {
-    padding: 40px; 
-    text-align:center; 
-    border-radius: 12px; 
-    display:flex; 
-    flex-direction:column; 
-    gap: 16px; 
-    align-items:center; 
-    border: 2px #EBEBEB dashed;
+padding: 40px; 
+text-align:center; 
+border-radius: 12px; 
+display:flex; 
+flex-direction:column; 
+gap: 16px; 
+align-items:center; 
+border: 2px #EBEBEB dashed;
 }
 
 .search-result {
-    position: absolute;
-    background-color: #FFF;
-    transform: translate(0px, 50px);
-    border-radius: 8px; 
-    border:1px solid #EBEBEB; 
-    padding: 10px 8px;
+position: absolute;
+background-color: #FFF;
+transform: translate(0px, 50px);
+border-radius: 8px; 
+border:1px solid #EBEBEB; 
+padding: 10px 8px;
 }
 
 .search-result-container{
-    cursor: pointer;
-    padding: 6px 8px; 
-    font-size: 14px; 
-    font-weight: 400; 
-    border-radius: 6px;
+cursor: pointer;
+padding: 6px 8px; 
+font-size: 14px; 
+font-weight: 400; 
+border-radius: 6px;
 }
 
 .search-result-container:hover {
-    background-color: #E4E4E4;
+background-color: #E4E4E4;
 }
 
 /* falah css : */
@@ -607,7 +620,7 @@ outline: none;
 .modal-transaction {
 display: none;
 position: fixed;
-z-index: 1;
+z-index: 3;
 left: 0;
 top: 0;
 width: 100%;

@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <form action="" method="post">
+            <form action="fungsi/<?= $_SESSION['level'] == 'admin' ? 'upload_product.php' : 'request_product.php' ?>" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div style="display: flex; flex-direction: column; gap: 24px;">
                         <label for="input-file" id="drop-area">
@@ -55,14 +55,14 @@
                                 </div>
                             </div>
                             <div class="request-stock" style="width: max-content;">Browse Image</div>
-                            <input type="file" accept="image/*" name="" id="input-file" hidden>
+                            <input type="file" accept="image/*" name="image" id="input-file" required hidden>
                         </label>
                         <div class="myform">
-                            <label for="name">Product Name</label>
-                            <input type="text" name="name" id="name" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; outline: none" placeholder="Name of product">
+                            <label for="name">Product Name<span style="color: #EC1A1A;">*</span></label>
+                            <input type="text" name="name" id="name" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; outline: none" placeholder="Name of product" required>
                         </div>
                         <div class="myform">
-                            <label>Category</label>
+                            <label>Category<span style="color: #EC1A1A;">*</span></label>
                             <div id="product-category" class="product-category" style="display: flex; align-items: center; justify-content: center; width: 100%; gap: 8px;">
                                 <?php
                                 require 'class/category.php';
@@ -77,24 +77,28 @@
                             <input type="text" name="desc" id="desc" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; " placeholder="Ex. “Isi ayam suwir”">
                         </div>
                         <div class="myform">
-                            <label for="bprice">Buying Price</label>
+                            <label for="stock">Stock(s)<span style="color: #EC1A1A;">*</span></label>
+                            <input type="number" name="stock" id="stock" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; " placeholder="0" required>
+                        </div>
+                        <div class="myform">
+                            <label for="bprice">Buying Price<span style="color: #EC1A1A;">*</span></label>
                             <div class="input-box">
                                 IDR
-                                <input type="number" name="bprice" id="bprice" style="width: 100%; border: none; outline: none;" placeholder="000">
+                                <input type="number" name="bprice" id="bprice" style="width: 100%; border: none; outline: none;" placeholder="000" required>
                             </div>
                         </div>
                         <div class="myform">
-                            <label for="sprice">Selling Price</label>
+                            <label for="sprice">Selling Price<span style="color: #EC1A1A;">*</span></label>
                             <div class="input-box">
                                 IDR
-                                <input type="number" name="sprice" id="sprice" style="width: 100%; border: none; outline: none;" placeholder="000">
+                                <input type="number" name="sprice" id="sprice" style="width: 100%; border: none; outline: none;" placeholder="000" required>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer" style="display: flex; gap: 16px;">
                     <div onclick="history.back()" class="request-stock" style="padding: 16px;">Cancel</div>
-                    <div id="add-product" class="request-stock" style="padding: 16px; background-color: #FFC300;"><?= $_SESSION['level'] == 'admin' ? 'Add Product' : 'Request Product' ?></div>
+                    <button id="add-product" type="submit" id="submitBtn" class="request-stock" style="padding: 16px; background-color: #FFC300;"><?= $_SESSION['level'] == 'admin' ? 'Add Product' : 'Request Product' ?></button>
                 </div>
             </form>
         </div>
@@ -102,6 +106,7 @@
     </div>
 </div>
 </div>
+
 <script>
     const dropArea = document.getElementById('drop-area');
     const inputFile = document.getElementById('input-file');

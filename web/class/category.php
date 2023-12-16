@@ -30,8 +30,9 @@ class Category
         foreach ($categories as $index => $row) {
             $isChecked = ($index == 0) ? 'checked' : '';
             echo '<input type="radio" 
-                        name="category" 
+                        name="category_id" 
                         id="' .  ($index + 1) . '" 
+                        value="' .  ($index + 1) . '" 
                         class="category-option" ' .
                 $isChecked  . '>
                 <label for="' . ($index + 1) . '" class="category-label">' .
