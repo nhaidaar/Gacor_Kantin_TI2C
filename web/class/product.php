@@ -21,6 +21,8 @@ class Product
                     category AS c ON p.category_id = c.id 
                 WHERE
                     p.id = $id
+                AND
+                    p.isHidden = 0
                 ";
         $result = mysqli_query($this->koneksi, $query);
         return mysqli_fetch_assoc($result);
@@ -36,6 +38,8 @@ class Product
                     product AS p
                 INNER JOIN 
                     category AS c ON p.category_id = c.id 
+                WHERE
+                    p.isHidden = 0
                 ";
         $result = mysqli_query($this->koneksi, $query);
         while ($row = mysqli_fetch_assoc($result)) {
@@ -55,6 +59,8 @@ class Product
                     category AS c ON p.category_id = c.id 
                 LEFT JOIN 
                     transaction_items AS ti ON p.id = ti.product_id
+                WHERE
+                    p.isHidden = 0
                 GROUP BY 
                     p.id
                 ORDER BY 
@@ -78,6 +84,8 @@ class Product
                     category AS c ON p.category_id = c.id
                 WHERE 
                     p.product_name LIKE '%$search%'
+                AND
+                    p.isHidden = 0
                 ";
         $result = mysqli_query($this->koneksi, $query);
         while ($row = mysqli_fetch_assoc($result)) {
@@ -92,7 +100,7 @@ class Product
                     <div class="product-stock" ' . ($row['stocks'] < 10 ? 'style="color: #EC1A1A;"' : '') . '>'
             . $row['stocks'] . ' Stock(s)
                     </div>
-                    <img src="assets/' . ($row['stocks'] == 0 ? $row['product_name'] . '_bw' : $row['product_name']) . '.png" class="product-img">
+                    <img src="assets/' . $row['product_name'] . '.png" class="product-img' . ($row['stocks'] == 0 ? '-grayscale' : '') . '">
                 </div>
             <div class="product-detail">
                 <div class="product-name">'
@@ -148,6 +156,8 @@ class Product
                     category AS c ON p.category_id = c.id
                 WHERE 
                     p.product_name LIKE '%$search%'
+                AND
+                    p.isHidden = 0
                 ";
         $result = mysqli_query($this->koneksi, $query);
         if (mysqli_num_rows($result) > 0) {

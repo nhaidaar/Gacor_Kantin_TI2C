@@ -14,7 +14,7 @@ if (isset($_POST['id'])) {
             <td>' . $row['stocks'] . '</td>
             <td><input type="number" name="qty" id="qty" value="1" min="1" max="' . $row['stocks'] . '"></td>
             <td>' . $row['selling_price'] . '</td>
-            <td>' . $row['selling_price'] . '</td>
+            <td id="eachtotal">' . $row['selling_price'] . '</td>
             <td><div id="cancel-row" class="request-stock" style="background-color: #EC1A1A; color: #fff;">Cancel</div></td>
         </tr>';
 }

@@ -26,14 +26,14 @@
                         <circle cx="9.21552" cy="9.21552" r="5.88495" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M16.6695 16.6695L13.3765 13.3765" stroke="#1B1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    <input type="text" name="search" class="searchbox" placeholder="Search">
+                    <input type="search" name="search" class="searchbox" placeholder="Search">
                 </div>
                 <div class="search-result" style="display: none;">
 
                 </div>
             </div>
             <div class="modal-content">
-                <table class="tx-detail">
+                <table class="transaction tx-detail">
                     <thead>
                         <tr>
                             <th>Product ID</th>
@@ -88,6 +88,18 @@
 </div>
 <script>
     $(document).ready(function() {
+        function updateTotalPrice() {
+            var totalPrice = 0;
+
+            // Iterate through each 'eachtotal' td element and sum up their values
+            $('#order-list td#eachtotal').each(function() {
+                totalPrice += parseFloat($(this).text());
+            });
+
+            // Update the total price in the #total_price element
+            $('#total_price').text(totalPrice);
+        }
+
         $('.searchbox').keyup(function(e) {
             var input = $(this).val();
 
@@ -120,6 +132,7 @@
                 },
                 success: function(response) {
                     $('#order-list').append(response);
+                    updateTotalPrice();
                 }
             });
         });
@@ -130,11 +143,13 @@
             var sellingPrice = parseFloat($(this).closest('tr').find('td:eq(4)').text());
             var totalPrice = qty * sellingPrice;
             $(this).closest('tr').find('td:eq(5)').text(totalPrice);
+            updateTotalPrice();
         });
 
         // remove button
         $(document).on('click', '#cancel-row', function() {
             $(this).closest('tr').remove();
+            updateTotalPrice();
         });
     });
 
