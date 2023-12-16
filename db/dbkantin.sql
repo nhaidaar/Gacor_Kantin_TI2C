@@ -59,26 +59,6 @@ CREATE TABLE `add_stock_log` (
   `stocks` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Triggers `add_stock_log`
---
-DELIMITER $$
-CREATE TRIGGER `add_stock_trigger` AFTER INSERT ON `add_stock_log` FOR EACH ROW BEGIN
-    DECLARE product_stock INT;
-
-    -- Get the current stock of the product
-    SELECT stock INTO product_stock
-    FROM product
-    WHERE id = NEW.product_id;
-
-    -- Update the product stock after adding new stock
-    UPDATE product
-    SET stock = product_stock + NEW.stock
-    WHERE id = NEW.product_id;
-END
-$$
-DELIMITER ;
-
 -- --------------------------------------------------------
 
 --
@@ -165,26 +145,6 @@ CREATE TABLE `transaction_items` (
 INSERT INTO `transaction_items` (`id`, `transactions_id`, `product_id`, `qty`, `total_price`) VALUES
 (1, 1, 4, 2, 10000),
 (2, 1, 1, 2, 5000);
-
---
--- Triggers `transaction_items`
---
-DELIMITER $$
-CREATE TRIGGER `reduce_stock_trigger` AFTER INSERT ON `transaction_items` FOR EACH ROW BEGIN
-    DECLARE product_stock INT;
-
-    -- Get the current stock of the product
-    SELECT stock INTO product_stock
-    FROM product
-    WHERE id = NEW.product_id;
-
-    -- Update the product stock after the purchase
-    UPDATE product
-    SET stock = product_stock - NEW.qty
-    WHERE id = NEW.product_id;
-END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 

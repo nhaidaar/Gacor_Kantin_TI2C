@@ -77,10 +77,6 @@
                             <input type="text" name="desc" id="desc" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; " placeholder="Ex. “Isi ayam suwir”">
                         </div>
                         <div class="myform">
-                            <label for="stock">Stock(s)</label>
-                            <input type="number" name="stock" id="stock" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; " placeholder="0">
-                        </div>
-                        <div class="myform">
                             <label for="bprice">Buying Price</label>
                             <div class="input-box">
                                 IDR
