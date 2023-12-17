@@ -1,8 +1,6 @@
 <?php
 $id = $_GET['id'];
-require 'class/notification.php';
-$notification = new Notification($koneksi);
-$result = $notification->fetchNotification($id);
+$result = $notif->fetchProductNotification($id);
 $row = mysqli_fetch_assoc($result);
 ?>
 <div class="content">

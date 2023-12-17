@@ -8,12 +8,44 @@ class Notification
         $this->koneksi = $connection;
     }
 
-    function fetchNotification($id)
+    function countNotification()
+    {
+        $query = "SELECT
+                    (
+                        SELECT COUNT(id)
+                        FROM add_product_log
+                        WHERE status = 'pending'
+                    ) as notif_product,
+                    (
+                        SELECT COUNT(id)
+                        FROM add_stock_log
+                        WHERE status = 'pending'
+                    ) as notif_stock;
+                ";
+        $result = mysqli_query($this->koneksi, $query);
+        $row = mysqli_fetch_assoc($result);
+        $count = $row['notif_product'] + $row['notif_stock'];
+        return $count;
+    }
+
+    function fetchProductNotification($id)
     {
         $query = "SELECT 
                     * 
                 from 
                     add_product_log 
+                WHERE 
+                    id = $id";
+        $result = mysqli_query($this->koneksi, $query);
+        return $result;
+    }
+
+    function fetchStockNotification($id)
+    {
+        $query = "SELECT 
+                    * 
+                from 
+                    add_stock_log 
                 WHERE 
                     id = $id";
         $result = mysqli_query($this->koneksi, $query);
@@ -58,7 +90,7 @@ class Notification
     {
         echo '<div class="notif-box">
                     <div class="message-box">
-                        <div class="message user-name">Your request of <span class="user-name">' . $row['product_name'] . '</span> ' . ($row['status'] == 'pending' ? 'is pending' : ($row['status'] == 'accept' ? 'has been approved' : 'has been rejected')) . '</div>
+                        <div class="message user-name">Your request of <span class="user-name">' . $row['product_name'] . '</span> ' . ($row['status'] == 'pending' ? 'is pending' : ($row['status'] == 'approved' ? 'has been approved' : 'has been rejected')) . '</div>
                         <div class="message-date">' . date('D, d F Y', strtotime($row['date'])) . '</div>
                     </div>
                 </div>';

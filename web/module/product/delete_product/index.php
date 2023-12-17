@@ -39,7 +39,7 @@ $row = $product->fetchProduct($id);
             </div>
             <div class="modal-footer" style="display: flex; gap: 16px;">
                 <div onclick="history.back()" class="request-stock" style="padding: 16px; font-weight:500;">Cancel</div>
-                <div id="delete-product" class="request-stock" style="padding: 16px; background-color: #EC1A1A; color:#FFF;">Delete</div>
+                <button id="delete-product" class="request-stock" style="padding: 16px; background-color: #EC1A1A; color:#FFF;">Delete</button>
             </div>
         </div>
     </div>

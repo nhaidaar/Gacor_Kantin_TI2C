@@ -17,9 +17,9 @@ move_uploaded_file($image_tmp, $target_file);
 
 $query = "INSERT INTO 
             add_product_log 
-            (product_name, category_id, description, stocks, buying_price, selling_price)
+            (product_name, date, category_id, description, stocks, buying_price, selling_price)
         VALUES 
-            ('$name', $category_id, '$description', $stocks, $buying_price, $selling_price)";
+            ('$name', NOW(), $category_id, '$description', $stocks, $buying_price, $selling_price)";
 echo $query;
 $result = mysqli_query($koneksi, $query);
 header("Location: ../index.php?page=notification");

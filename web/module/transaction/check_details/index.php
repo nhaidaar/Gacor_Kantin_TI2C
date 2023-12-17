@@ -47,7 +47,7 @@ $row = mysqli_fetch_assoc($result);
                     </div>
                     <?= date("d-m-Y", strtotime($row['order_date'])) ?>
                 </div>
-                <table class="tx-detail">
+                <table class="tx-detail" style="border: 1px #EBEBEB solid;">
                     <thead>
                         <tr>
                             <th>Product</th>

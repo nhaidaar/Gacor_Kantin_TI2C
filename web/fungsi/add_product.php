@@ -20,6 +20,5 @@ $query = "INSERT INTO
             (product_name, category_id, description, stocks, buying_price, selling_price)
         VALUES 
             ('$name', $category_id, '$description', $stocks, $buying_price, $selling_price)";
-echo $query;
 $result = mysqli_query($koneksi, $query);
 header("Location: ../index.php?page=product");

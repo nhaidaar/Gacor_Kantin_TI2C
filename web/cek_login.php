@@ -16,6 +16,7 @@ mysqli_close($koneksi);
 $checked_password = $row['password'];
 
 if ($checked_password == $password) {
+    $_SESSION['id'] = $row['id'];
     $_SESSION['username'] = $row['username'];
     $_SESSION['level'] = $row['level'];
     header("Location: index.php");

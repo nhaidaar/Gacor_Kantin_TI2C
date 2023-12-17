@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <form action="fungsi/<?= $_SESSION['level'] == 'admin' ? 'upload_product.php' : 'request_product.php' ?>" method="post" enctype="multipart/form-data">
+            <form action="fungsi/<?= $_SESSION['level'] == 'admin' ? 'add_product.php' : 'request_product.php' ?>" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div style="display: flex; flex-direction: column; gap: 24px;">
                         <label for="input-file" id="drop-area">

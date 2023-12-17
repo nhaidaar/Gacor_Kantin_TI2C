@@ -79,7 +79,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <div class="request-stock" style="background-color:#FFC300; padding: 16px;">
+                <div id="submit" class="request-stock" style="background-color:#FFC300; padding: 16px;">
                     Place Order
                 </div>
             </div>
@@ -150,6 +150,12 @@
         $(document).on('click', '#cancel-row', function() {
             $(this).closest('tr').remove();
             updateTotalPrice();
+        });
+
+        $('#submit').click(function(e) {
+            e.preventDefault();
+
+
         });
     });
 
