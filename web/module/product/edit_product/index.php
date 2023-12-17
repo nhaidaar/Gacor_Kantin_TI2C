@@ -45,7 +45,7 @@ $row = $product->fetchProduct($id);
                     </div>
                 </div>
             </div>
-            <form action="" method="post">
+            <form action="fungsi/edit_product.php" method="post">
                 <div class="modal-content">
                     <div style="display: flex; flex-direction: column; gap: 24px;">
                         <label for="input-file" id="drop-area">
@@ -54,6 +54,7 @@ $row = $product->fetchProduct($id);
                             <input type="file" accept="image/*" name="" id="input-file" hidden>
                         </label>
                         <div class="myform">
+                            <input type="number" value="<?= $id ?>" hidden>
                             <label for="name">Product Name</label>
                             <input type="text" name="name" id="name" value=" <?= $row['product_name'] ?>" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; outline: none" placeholder="Name of product">
                         </div>
@@ -94,7 +95,7 @@ $row = $product->fetchProduct($id);
                 </div>
                 <div class="modal-footer" style="display: flex; gap: 8px;">
                     <div onclick="history.back()" class="request-stock" style="padding: 16px;">Cancel</div>
-                    <div id="add-product" class="request-stock" style="padding: 16px; background-color: #FFC300; border: 1px solid transparent;">Edit Product</div>
+                    <button type="submit" id="add-product" class="request-stock" style="padding: 16px; background-color: #FFC300; border: 1px solid transparent;">Edit Product</button>
                 </div>
             </form>
         </div>

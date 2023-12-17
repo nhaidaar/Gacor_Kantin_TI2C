@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 30, 2023 at 01:20 PM
+-- Generation Time: Dec 15, 2023 at 04:31 AM
 -- Server version: 10.11.2-MariaDB
 -- PHP Version: 8.0.28
 
@@ -30,11 +30,33 @@ SET time_zone = "+00:00";
 CREATE TABLE `add_product_log` (
   `id` int(11) NOT NULL,
   `product_name` varchar(225) NOT NULL,
-  `img_url` varchar(225) NOT NULL,
+  `date` date NOT NULL,
   `category_id` int(11) NOT NULL,
+  `description` varchar(225) NOT NULL,
   `stocks` int(11) NOT NULL,
   `buying_price` double NOT NULL,
-  `selling_price` double NOT NULL
+  `selling_price` double NOT NULL,
+  `status` enum('approved','pending','rejected','') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `add_product_log`
+--
+
+INSERT INTO `add_product_log` (`id`, `product_name`, `date`, `category_id`, `description`, `stocks`, `buying_price`, `selling_price`, `status`) VALUES
+(1, 'Pop Mie Rasa Ayam', '2023-12-01', 1, '', 50, 5000, 7000, 'approved'),
+(2, 'Teh Pucuk Harum', '2023-12-10', 2, '', 100, 3000, 4000, 'pending');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `add_stock_log`
+--
+
+CREATE TABLE `add_stock_log` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `stocks` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -48,6 +70,15 @@ CREATE TABLE `category` (
   `category_name` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`id`, `category_name`) VALUES
+(1, 'Snack'),
+(2, 'Beverage'),
+(3, 'Meal');
+
 -- --------------------------------------------------------
 
 --
@@ -57,12 +88,22 @@ CREATE TABLE `category` (
 CREATE TABLE `product` (
   `id` int(11) NOT NULL,
   `product_name` varchar(225) NOT NULL,
-  `img_url` varchar(225) NOT NULL,
   `category_id` int(11) NOT NULL,
+  `description` varchar(225) NOT NULL,
   `stocks` int(100) NOT NULL,
   `buying_price` double NOT NULL,
   `selling_price` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`id`, `product_name`, `category_id`, `description`, `stocks`, `buying_price`, `selling_price`) VALUES
+(1, 'Cheetos 15g', 1, '', 100, 1500, 2500),
+(2, 'Taro Net 32g', 1, '', 100, 3500, 5000),
+(3, 'Potabee Potato Chips 15g', 1, '', 100, 1500, 2500),
+(4, 'Garuda Rosta 25g', 1, '', 100, 4000, 5000);
 
 -- --------------------------------------------------------
 
@@ -74,6 +115,14 @@ CREATE TABLE `transactions` (
   `id` int(11) NOT NULL,
   `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transactions`
+--
+
+INSERT INTO `transactions` (`id`, `date`) VALUES
+(1, '2023-12-01 12:30:00'),
+(2, '2023-12-01 10:00:00');
 
 -- --------------------------------------------------------
 
@@ -89,6 +138,14 @@ CREATE TABLE `transaction_items` (
   `total_price` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `transaction_items`
+--
+
+INSERT INTO `transaction_items` (`id`, `transactions_id`, `product_id`, `qty`, `total_price`) VALUES
+(1, 1, 4, 2, 10000),
+(2, 1, 1, 2, 5000);
+
 -- --------------------------------------------------------
 
 --
@@ -103,6 +160,14 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `password`, `level`) VALUES
+(1, 'admin', '1234', 'admin'),
+(2, 'user', '1357', 'user');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -112,6 +177,13 @@ CREATE TABLE `user` (
 ALTER TABLE `add_product_log`
   ADD PRIMARY KEY (`id`),
   ADD KEY `category_id` (`category_id`);
+
+--
+-- Indexes for table `add_stock_log`
+--
+ALTER TABLE `add_stock_log`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `category`
@@ -154,37 +226,43 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `add_product_log`
 --
 ALTER TABLE `add_product_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `add_stock_log`
+--
+ALTER TABLE `add_stock_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `transaction_items`
 --
 ALTER TABLE `transaction_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -195,6 +273,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `add_product_log`
   ADD CONSTRAINT `add_product_log_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+
+--
+-- Constraints for table `add_stock_log`
+--
+ALTER TABLE `add_stock_log`
+  ADD CONSTRAINT `add_stock_log_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
 --
 -- Constraints for table `product`
