@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 18, 2023 at 04:28 AM
+-- Generation Time: Dec 18, 2023 at 03:57 PM
 -- Server version: 10.11.2-MariaDB
 -- PHP Version: 8.0.28
 
@@ -30,22 +30,15 @@ SET time_zone = "+00:00";
 CREATE TABLE `add_product_log` (
   `id` int(11) NOT NULL,
   `product_name` varchar(225) NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
   `category_id` int(11) NOT NULL,
   `description` varchar(225) NOT NULL,
   `stocks` int(11) NOT NULL,
   `buying_price` double NOT NULL,
   `selling_price` double NOT NULL,
-  `status` enum('approved','pending','rejected') NOT NULL DEFAULT 'pending'
+  `status` enum('approved','pending','rejected') NOT NULL DEFAULT 'pending',
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `add_product_log`
---
-
-INSERT INTO `add_product_log` (`id`, `product_name`, `date`, `category_id`, `description`, `stocks`, `buying_price`, `selling_price`, `status`) VALUES
-(1, 'Pop Mie Rasa Ayam', '2023-12-01', 1, '', 50, 5000, 7000, 'approved'),
-(2, 'Teh Pucuk Harum', '2023-12-10', 2, '', 100, 3000, 4000, 'approved');
 
 --
 -- Triggers `add_product_log`
@@ -69,9 +62,10 @@ DELIMITER ;
 CREATE TABLE `add_stock_log` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
   `stocks` int(11) NOT NULL,
-  `status` enum('approved','pending','rejected') NOT NULL DEFAULT 'pending'
+  `status` enum('approved','pending','rejected') NOT NULL DEFAULT 'pending',
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -232,14 +226,16 @@ INSERT INTO `user` (`id`, `username`, `password`, `name`, `level`) VALUES
 --
 ALTER TABLE `add_product_log`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `category_id` (`category_id`);
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `add_stock_log`
 --
 ALTER TABLE `add_stock_log`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `category`
@@ -329,13 +325,15 @@ ALTER TABLE `user`
 -- Constraints for table `add_product_log`
 --
 ALTER TABLE `add_product_log`
-  ADD CONSTRAINT `add_product_log_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+  ADD CONSTRAINT `add_product_log_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
+  ADD CONSTRAINT `add_product_log_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `add_stock_log`
 --
 ALTER TABLE `add_stock_log`
-  ADD CONSTRAINT `add_stock_log_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
+  ADD CONSTRAINT `add_stock_log_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
+  ADD CONSTRAINT `add_stock_log_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `product`
