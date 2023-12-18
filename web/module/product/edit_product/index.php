@@ -45,21 +45,21 @@ $row = $product->fetchProduct($id);
                     </div>
                 </div>
             </div>
-            <form action="fungsi/edit_product.php" method="post">
+            <form action="fungsi/edit_product.php" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div style="display: flex; flex-direction: column; gap: 24px;">
                         <label for="input-file" id="drop-area">
                             <img id="preview-image" src="assets/<?= $row['product_name'] ?>.png" style="width: 400px; height: 300px; object-fit:contain;">
                             <div class="request-stock" style="width: max-content;">Browse Image</div>
-                            <input type="file" accept="image/*" name="" id="input-file" hidden>
+                            <input type="file" accept="image/*" name="image" id="input-file" hidden>
                         </label>
                         <div class="myform">
-                            <input type="number" value="<?= $id ?>" hidden>
-                            <label for="name">Product Name</label>
-                            <input type="text" name="name" id="name" value=" <?= $row['product_name'] ?>" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; outline: none" placeholder="Name of product">
+                            <input type="number" name="id" value="<?= $id ?>" hidden>
+                            <label for="name">Product Name<span style="color: #EC1A1A;">*</span></label>
+                            <input type="text" name="name" id="name" value="<?= $row['product_name'] ?>" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; outline: none" placeholder="Name of product" required>
                         </div>
                         <div class="myform">
-                            <label>Category</label>
+                            <label>Category<span style="color: #EC1A1A;">*</span></label>
                             <div id="product-category" class="product-category" style="display: flex; align-items: center; justify-content: center; width: 100%; gap: 8px;">
                                 <?php
                                 require 'class/category.php';
@@ -74,21 +74,21 @@ $row = $product->fetchProduct($id);
                             <input type="text" name="desc" id="desc" value="<?= $row['description'] ?>" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; " placeholder="Ex. “Isi ayam suwir”">
                         </div>
                         <div class="myform">
-                            <label for="stock">Stock(s)</label>
-                            <input type="number" name="stock" id="stock" value="<?= $row['stocks'] ?>" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; " placeholder="0">
+                            <label for="stock">Stock(s)<span style="color: #EC1A1A;">*</span></label>
+                            <input type="number" name="stock" id="stock" min="1" value="<?= $row['stocks'] ?>" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; " placeholder="0" required>
                         </div>
                         <div class="myform">
-                            <label for="bprice">Buying Price</label>
+                            <label for="bprice">Buying Price<span style="color: #EC1A1A;">*</span></label>
                             <div class="input-box">
                                 IDR
-                                <input type="number" name="bprice" id="bprice" value="<?= $row['buying_price'] ?>" style="width: 100%; border: none; outline: none;" placeholder="000">
+                                <input type="number" name="bprice" id="bprice" value="<?= $row['buying_price'] ?>" style="width: 100%; border: none; outline: none;" placeholder="000" required>
                             </div>
                         </div>
                         <div class="myform">
                             <label for="sprice">Selling Price</label>
                             <div class="input-box">
                                 IDR
-                                <input type="number" name="sprice" id="sprice" value="<?= $row['selling_price'] ?>" style="width: 100%; border: none; outline: none;" placeholder="000">
+                                <input type="number" name="sprice" id="sprice" value="<?= $row['selling_price'] ?>" style="width: 100%; border: none; outline: none;" placeholder="000" required>
                             </div>
                         </div>
                     </div>

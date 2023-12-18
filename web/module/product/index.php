@@ -19,12 +19,6 @@
                 <input type="text" name="search" class="searchbox" placeholder="Search">
             </div>
             <div style="gap: 8px; display: flex;">
-                <div class="edit-product">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
-                        <path stroke="#1B1B1B" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m8.333 6.667-2.5-2.5-2.5 2.5m2.5 9.166V4.167m5.833 9.166 2.5 2.5 2.5-2.5m-2.499-9.166v11.666" />
-                    </svg>
-                    Sort by
-                </div>
                 <?php
                 if ($_SESSION['level'] == 'admin') {
                 ?>

@@ -41,7 +41,6 @@ $transaction = new Transaction($koneksi);
             <thead>
                 <tr>
                     <th>Order ID</th>
-                    <th>Product</th>
                     <th>Date</th>
                     <th>Time</th>
                     <th>Total Price</th>

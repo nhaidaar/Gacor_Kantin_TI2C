@@ -1,6 +1,6 @@
 <?php
 $id = $_GET['id'];
-$result = $notif->fetchProductNotification($id);
+$result = $notif->fetchStockNotification($id);
 $row = mysqli_fetch_assoc($result);
 ?>
 <div class="content">
@@ -25,7 +25,7 @@ $row = mysqli_fetch_assoc($result);
         </div>
         <div style="height: 32px;"></div>
         <div style="border: 1px #EBEBEB solid; border-radius: 16px;">
-            <div class="modal-header">Request Product</div>
+            <div class="modal-header">Request Stock</div>
             <div class="modal-content">
                 <div id="drop-area">
                     <img src="assets/<?= $row['product_name'] ?>.png" style="width: 400px; height: 300px; object-fit:contain;">
@@ -39,44 +39,26 @@ $row = mysqli_fetch_assoc($result);
                 </div>
                 <div class="product-row">
                     <div class="order-attribute">
-                        Category
+                        Stock
                     </div>
-                    <?= $row['category_id'] ?>
-                </div>
-                <div class="product-row">
-                    <div class="order-attribute">
-                        Description
-                    </div>
-                    <?= $row['description'] ?>
-                </div>
-                <div class="product-row">
-                    <div class="order-attribute">
-                        Buying Price
-                    </div>
-                    IDR <?= $row['buying_price'] ?>
-                </div>
-                <div class="product-row">
-                    <div class="order-attribute">
-                        Selling Price
-                    </div>
-                    IDR <?= $row['selling_price'] ?>
+                    <?= $row['stocks'] ?>
                 </div>
             </div>
             <div class="modal-footer" style="display: flex; gap: 16px;">
-                <div data-id="<?= $id ?>" id="reject-product" class="request-stock" style="padding: 16px; background-color: #EC1A1A; color:#FFF;">Reject</div>
-                <div data-id="<?= $id ?>" id="approve-product" class="request-stock" style="padding: 16px; background-color: #FFC300;">Approve</div>
+                <div data-id="<?= $id ?>" id="reject-stock" class="request-stock" style="padding: 16px; background-color: #EC1A1A; color:#FFF;">Reject</div>
+                <div data-id="<?= $id ?>" id="approve-stock" class="request-stock" style="padding: 16px; background-color: #FFC300;">Approve</div>
             </div>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function() {
-        $('#approve-product').click(function(e) {
+        $('#approve-stock').click(function(e) {
             e.preventDefault();
             var id = $(this).data('id');
             $.ajax({
                 type: "POST",
-                url: "fungsi/approve_product.php",
+                url: "fungsi/approve_stock.php",
                 data: {
                     id: id
                 },
@@ -85,12 +67,12 @@ $row = mysqli_fetch_assoc($result);
                 }
             });
         });
-        $('#reject-product').click(function(e) {
+        $('#reject-stock').click(function(e) {
             e.preventDefault();
             var id = $(this).data('id');
             $.ajax({
                 type: "POST",
-                url: "fungsi/reject_product.php",
+                url: "fungsi/reject_stock.php",
                 data: {
                     id: id
                 },

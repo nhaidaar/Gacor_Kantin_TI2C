@@ -31,7 +31,6 @@ class Transaction
     {
         $query = "SELECT 
                     t.id AS order_id,
-                    GROUP_CONCAT(CONCAT(ti.qty, 'pcs ', p.product_name) SEPARATOR '\n') AS product,
                     TIME(t.date) AS transaction_time,
                     DATE(t.date) AS transaction_date,
                     SUM(ti.total_price) AS total_price
@@ -39,8 +38,6 @@ class Transaction
                     transactions t
                 INNER JOIN 
                     transaction_items ti ON t.id = ti.transactions_id
-                INNER JOIN 
-                    product p ON ti.product_id = p.id
                 GROUP BY 
                     t.id
                 ORDER BY 
@@ -60,7 +57,6 @@ class Transaction
         $dateend = $dateend . ' 23:59:59';
         $query = "SELECT 
                     t.id AS order_id,
-                    GROUP_CONCAT(CONCAT(ti.qty, 'pcs ', p.product_name) SEPARATOR '\n') AS product,
                     TIME(t.date) AS transaction_time,
                     DATE(t.date) AS transaction_date,
                     SUM(ti.total_price) AS total_price
@@ -68,8 +64,6 @@ class Transaction
                     transactions t
                 INNER JOIN 
                     transaction_items ti ON t.id = ti.transactions_id
-                INNER JOIN 
-                    product p ON ti.product_id = p.id
                 WHERE
                     t.date BETWEEN '$datestart' AND '$dateend'
                 GROUP BY 
@@ -92,11 +86,10 @@ class Transaction
     {
         echo '<tr>
         <td> #' . sprintf('%08s', strtoupper(dechex($row['order_id']))) . '</td>
-        <td>' . $row['product'] . '</td>
         <td>' . date("d-m-Y", strtotime($row['transaction_date'])) . '</td>
         <td>' . $row['transaction_time'] . '</td>
         <td>IDR ' . number_format($row['total_price'], 2, ',', '.') . '</td>
-        <td><a href="index.php?page=transaction/check_details&id=' . $row['order_id'] . '">See Detail</a></td>
+        <td class="transaction-detail"><a class="seedetail" href="index.php?page=transaction/check_details&id=' . $row['order_id'] . '">See Detail</a></td>
         </tr>';
     }
 }

@@ -1,7 +1,6 @@
 <?php
 require '../config/koneksi.php';
 
-
 $id = $_POST['id'];
 $name = $_POST['name'];
 $category_id = $_POST['category_id'];
@@ -21,6 +20,5 @@ $query = "UPDATE product SET
             product_name = '$name', category_id = $category_id, description = '$description', 
             stocks = $stocks, buying_price = $buying_price, selling_price = $selling_price
             WHERE id = $id";
-
 $result = mysqli_query($koneksi, $query);
 header("Location: ../index.php?page=product");

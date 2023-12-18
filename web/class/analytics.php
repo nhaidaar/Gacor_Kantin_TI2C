@@ -134,12 +134,12 @@ class Analytics
                 </div>
                 <div class="item-row">
                     <div class="income">IDR ' . $monthly . '</div>'
-            . ($percentage < 0
+            . ($percentage <= 0
                 ? '<div class="percentage-row">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" fill="none">
                             <path stroke="#EC1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="m2.5 9.25 7-7m-7 1.865V9.25h5.135M1.75 11.5h8.5" />
                         </svg>
-                        <div class="percentage">' . $percentage . '%</div>
+                        <div class="percentage">' . abs($percentage) . '%</div>
                     </div>'
                 : '<div class="percentage-row" style="background-color: rgba(0, 115, 27, 0.12); border: 1.5px rgba(0, 115, 27, 0.5) solid;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" fill="none">
@@ -167,12 +167,12 @@ class Analytics
                 </div>
                 <div class="item-row">
                     <div class="income">IDR ' . $daily . '</div>'
-            . ($percentage < 0
+            . ($percentage <= 0
                 ? '<div class="percentage-row">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" fill="none">
                             <path stroke="#EC1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="m2.5 9.25 7-7m-7 1.865V9.25h5.135M1.75 11.5h8.5" />
                         </svg>
-                        <div class="percentage">' . $percentage . '%</div>
+                        <div class="percentage">' . abs($percentage) . '%</div>
                     </div>'
                 : '<div class="percentage-row" style="background-color: rgba(0, 115, 27, 0.12); border: 1.5px rgba(0, 115, 27, 0.5) solid;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" fill="none">
@@ -200,12 +200,12 @@ class Analytics
                 </div>
                 <div class="item-row">
                     <div class="income">IDR ' . $daily . '</div>'
-            . ($percentage < 0
+            . ($percentage <= 0
                 ? '<div class="percentage-row">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" fill="none">
                             <path stroke="#EC1A1A" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="m2.5 9.25 7-7m-7 1.865V9.25h5.135M1.75 11.5h8.5" />
                         </svg>
-                        <div class="percentage">' . $percentage . '%</div>
+                        <div class="percentage">' . abs($percentage) . '%</div>
                     </div>'
                 : '<div class="percentage-row" style="background-color: rgba(0, 115, 27, 0.12); border: 1.5px rgba(0, 115, 27, 0.5) solid;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" fill="none">

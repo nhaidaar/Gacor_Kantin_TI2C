@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="modal-content">
-                <table class="transaction tx-detail">
+                <table id="cart" class="transaction tx-detail">
                     <thead>
                         <tr>
                             <th>Product ID</th>
@@ -46,9 +46,9 @@
                         </tr>
                     </thead>
                     <tbody id="order-list">
-                        <!-- <tr>
+                        <tr>
                             <td>No results found.</td>
-                        </tr> -->
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -90,7 +90,6 @@
     $(document).ready(function() {
         function updateTotalPrice() {
             var totalPrice = 0;
-
             // Iterate through each 'eachtotal' td element and sum up their values
             $('#order-list td#eachtotal').each(function() {
                 totalPrice += parseFloat($(this).text());
@@ -102,7 +101,6 @@
 
         $('.searchbox').keyup(function(e) {
             var input = $(this).val();
-
             const box = document.querySelector('.search-result');
             if (input != '') {
                 box.style.display = 'block';
@@ -120,21 +118,40 @@
                 box.style.display = 'none';
             }
         });
+
         $(document).on('click', '.search-result-container', function() {
             var id = $(this).data('id');
-            const box = document.querySelector('.search-result');
-            box.style.display = 'none';
-            $.ajax({
-                type: "POST",
-                url: "fungsi/get_product_detail.php",
-                data: {
-                    id: id
-                },
-                success: function(response) {
-                    $('#order-list').append(response);
-                    updateTotalPrice();
+            var productExists = false;
+            $('#order-list tr').each(function() {
+                var product_id = $(this).find('#product_id').text();
+                if (product_id.trim() === id.toString()) {
+                    productExists = true;
+                    var qty = $(this).find('#qty');
+                    var newQty = parseInt(qty.val()) + 1;
+                    qty.val(newQty);
+                    return false;
                 }
             });
+            if (!productExists) {
+                const box = document.querySelector('.search-result');
+                box.style.display = 'none';
+                $.ajax({
+                    type: "POST",
+                    url: "fungsi/get_product_detail.php",
+                    data: {
+                        id: id
+                    },
+                    success: function(response) {
+                        var noResults = $('#order-list').find('tr:has(td):contains("No results found.")');
+                        if (noResults.length) {
+                            noResults.replaceWith(response);
+                        } else {
+                            $('#order-list').append(response);
+                        }
+                        updateTotalPrice();
+                    }
+                });
+            }
         });
 
         // qty * sellingprice = totalprice
@@ -142,7 +159,7 @@
             var qty = $(this).val();
             var sellingPrice = parseFloat($(this).closest('tr').find('td:eq(4)').text());
             var totalPrice = qty * sellingPrice;
-            $(this).closest('tr').find('td:eq(5)').text(totalPrice);
+            $(this).closest('tr').find('#eachtotal').text(totalPrice);
             updateTotalPrice();
         });
 
@@ -152,10 +169,27 @@
             updateTotalPrice();
         });
 
-        $('#submit').click(function(e) {
-            e.preventDefault();
-
-
+        // submit the transaction
+        $('#submit').on('click', function() {
+            var dataRow = [];
+            $('#order-list tr').each(function() {
+                var data = {
+                    'product_id': $(this).find('#product_id').text(),
+                    'qty': $(this).find('#qty').val(),
+                    'total_price': $(this).find('#eachtotal').text()
+                };
+                dataRow.push(data);
+            });
+            $.ajax({
+                type: "POST",
+                url: "fungsi/add_transaction.php",
+                data: {
+                    dataRow: dataRow
+                },
+                success: function(response) {
+                    window.location.href = "index.php?page=transaction";
+                }
+            });
         });
     });
 

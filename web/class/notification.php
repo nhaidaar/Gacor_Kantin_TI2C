@@ -43,56 +43,113 @@ class Notification
     function fetchStockNotification($id)
     {
         $query = "SELECT 
-                    * 
+                    s.id, p.product_name, s.stocks
                 from 
-                    add_stock_log 
+                    add_stock_log AS s
+                INNER JOIN
+                    product AS p ON p.id = s.product_id
                 WHERE 
-                    id = $id";
+                    s.id = $id";
         $result = mysqli_query($this->koneksi, $query);
         return $result;
     }
 
     function showNotification()
     {
-        $query = "SELECT 
-                    * 
+        $productQuery = "SELECT 
+                    p.id, p.status, p.product_name, p.date, u.name
                 from 
-                    add_product_log 
+                    add_product_log AS p
+                INNER JOIN
+                    user AS u ON u.id = p.user_id 
                 ORDER BY 
                     date DESC";
-        $result = mysqli_query($this->koneksi, $query);
-        if ($_SESSION['level'] == 'admin') {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $this->adminNotif($row);
-            }
-        } else {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $this->userNotif($row);
-            }
+        $productResult = mysqli_query($this->koneksi, $productQuery);
+
+        $stockQuery = "SELECT 
+                    s.id, p.product_name, s.date, s.stocks, s.status, u.name
+                from 
+                    add_stock_log AS s
+                INNER JOIN
+                    user AS u ON u.id = s.user_id 
+                INNER JOIN
+                    product AS p ON p.id = s.product_id
+                ORDER BY 
+                    date DESC";
+        $stockResult = mysqli_query($this->koneksi, $stockQuery);
+
+        $notif = [];
+        while ($row = mysqli_fetch_assoc($productResult)) {
+            $row['type'] = 'product';
+            $notif[] = $row;
+        }
+        while ($row = mysqli_fetch_assoc($stockResult)) {
+            $row['type'] = 'stock';
+            $notif[] = $row;
+        }
+
+        usort($notif, function ($a, $b) {
+            return strtotime($b['date']) - strtotime($a['date']);
+        });
+
+        foreach ($notif as $n) {
+            $this->notificationView($n);
         }
     }
 
-    function adminNotif($row)
+    function notificationView($row)
     {
-        echo '<div class="notif-box">
-                    <div class="message-box">
-                        <div class="message">' . ($row['status'] == 'pending' ?
-            '<span class="user-name">Naufal Haidar</span> request <span class="user-name">' . $row['product_name'] . '</span> as new product'
-            : 'You have ' . $row['status'] . ' request of <span class="user-name">' . $row['product_name']) .
-            '</span></div>
-                        <div class="message-date">' . date('D, d F Y', strtotime($row['date'])) . '</div>
-                    </div>'
-            . ($row['status'] == 'pending' ? '<a href="index.php?page=notification/view_product&id=' . $row['id'] . '" class="view-button">View</a>' : ' ') .
-            '</div>';
-    }
+        if ($row['status'] == 'pending') {
+            echo '<div class="notif-box">';
+        } else {
+            echo '<div class="notif-box" style="background-color: #FAFAFA;">';
+        }
+        echo '<div class="message-box">
+            <div class="message">';
+        if ($row['status'] == 'pending') {
+            if ($row['type'] == 'product') {
+                if ($_SESSION['level'] == 'admin') {
+                    echo '<span class="dot"></span><span class="user-name">' . $row['name'] . '</span> request <span class="user-name"> New Product - ' . $row['product_name'] . '</span>';
+                } else {
+                    echo '<span class="dot"></span>Your request of <span class="user-name"> New Product - ' . $row['product_name'] . '</span> is pending';
+                }
+            } else {
+                if ($_SESSION['level'] == 'admin') {
+                    echo '<span class="dot"></span><span class="user-name">' . $row['name'] . '</span> request <span class="user-name">' . $row['stocks'] . ' Stock(s) - ' . $row['product_name'] . '</span>';
+                } else {
+                    echo '<span class="dot"></span>Your request of <span class="user-name">' . $row['stocks'] . ' Stock(s) - ' . $row['product_name'] . '</span> is pending';
+                }
+            }
+        } else {
+            if ($row['type'] == 'product') {
+                if ($_SESSION['level'] == 'admin') {
+                    echo 'You have ' . $row['status'] . ' <span class="user-name"> New Product - ' . $row['product_name'] . '</span>';
+                } else {
+                    echo 'Your request of <span class="user-name">New Product - ' . $row['product_name'] . '</span> has been ' . $row['status'];
+                }
+            } else {
+                if ($_SESSION['level'] == 'admin') {
+                    echo 'You have ' . $row['status'] . ' <span class="user-name">' . $row['stocks'] . ' Stock(s) - ' . $row['product_name'] . '</span>';
+                } else {
+                    echo 'Your request of <span class="user-name">' . $row['stocks'] . ' Stock(s) - ' . $row['product_name'] . '</span> has been ' . $row['status'];
+                }
+            }
+        }
+        echo '</div>
+            <div class="message-date">' . date('D, d F Y', strtotime($row['date'])) . '</div>
+        </div>';
 
-    function userNotif($row)
-    {
-        echo '<div class="notif-box">
-                    <div class="message-box">
-                        <div class="message user-name">Your request of <span class="user-name">' . $row['product_name'] . '</span> ' . ($row['status'] == 'pending' ? 'is pending' : ($row['status'] == 'approved' ? 'has been approved' : 'has been rejected')) . '</div>
-                        <div class="message-date">' . date('D, d F Y', strtotime($row['date'])) . '</div>
-                    </div>
-                </div>';
+        if ($row['status'] == 'pending') {
+            if ($row['type'] == 'product') {
+                if ($_SESSION['level'] == 'admin') {
+                    echo '<a href="index.php?page=notification/view_product&id=' . $row['id'] . '" class="view-button">View</a>';
+                }
+            } else {
+                if ($_SESSION['level'] == 'admin') {
+                    echo '<a href="index.php?page=notification/view_stock&id=' . $row['id'] . '" class="view-button">View</a>';
+                }
+            }
+        }
+        echo '</div>';
     }
 }
