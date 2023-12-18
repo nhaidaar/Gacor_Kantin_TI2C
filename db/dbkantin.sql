@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 17, 2023 at 02:22 PM
+-- Generation Time: Dec 18, 2023 at 04:28 AM
 -- Server version: 10.11.2-MariaDB
 -- PHP Version: 8.0.28
 
@@ -69,6 +69,7 @@ DELIMITER ;
 CREATE TABLE `add_stock_log` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
+  `date` date NOT NULL,
   `stocks` int(11) NOT NULL,
   `status` enum('approved','pending','rejected') NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -78,17 +79,12 @@ CREATE TABLE `add_stock_log` (
 --
 DELIMITER $$
 CREATE TRIGGER `add_stock_trigger` AFTER INSERT ON `add_stock_log` FOR EACH ROW BEGIN
-    DECLARE product_stock INT;
-
-    -- Get the current stock of the product
-    SELECT stocks INTO product_stock
-    FROM product
-    WHERE id = NEW.product_id;
-
-    -- Update the product stock after adding new stock
-    UPDATE product
-    SET stocks = product_stock + NEW.stocks
-    WHERE id = NEW.product_id;
+    IF NEW.status = 'approved' THEN
+        -- Update the product stock by adding the new stocks from add_stock_log
+        UPDATE product
+        SET stocks = stocks + NEW.stocks
+        WHERE id = NEW.product_id;
+    END IF;
 END
 $$
 DELIMITER ;
@@ -140,7 +136,8 @@ INSERT INTO `product` (`id`, `product_name`, `category_id`, `description`, `stoc
 (3, 'Potabee Potato Chips 15g', 1, '', 100, 1500, 2500, 0),
 (4, 'Garuda Rosta 25g', 1, '', 100, 4000, 5000, 0),
 (5, 'Pop Mie Rasa Ayam', 1, '', 50, 5000, 7000, 0),
-(6, 'Teh Pucuk Harum', 2, '', 100, 3000, 4000, 0);
+(6, 'Teh Pucuk Harum', 2, '', 100, 3000, 4000, 0),
+(7, 'Poltek', 1, 'POLINEMA JOSS', 100, 1000, 10000, 1);
 
 -- --------------------------------------------------------
 
@@ -304,7 +301,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `transactions`
