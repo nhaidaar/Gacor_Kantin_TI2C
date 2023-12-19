@@ -11,18 +11,16 @@
 
 <body>
     <?php
+    // Set the active menu sidebar
     if (isset($_GET['page'])) {
         $status = $_GET['page'];
     } else {
         $status = 'dashboard';
     }
-    $query = "SELECT COUNT(id) as notif 
-            FROM 
-                add_product_log 
-            WHERE 
-                status = 'pending'";
-    $result = mysqli_query($koneksi, $query);
-    $row = mysqli_fetch_assoc($result);
+
+    require 'class/notification.php';
+    $notif = new Notification($koneksi);
+    $count = $notif->countNotification();
     ?>
     <div class="sidebar">
         <a href="index.php">
@@ -78,9 +76,9 @@
                     </svg>
                     Notification
                     <?php
-                    if ($row['notif'] > 0) {
+                    if ($count > 0) {
                     ?>
-                        <div class="notif"><?= $row['notif'] ?></div>
+                        <div class="notif"><?= $count ?></div>
                     <?php
                     }
                     ?>

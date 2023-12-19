@@ -11,8 +11,6 @@
     </div>
     <div class="container">
         <?php
-        require 'class/notification.php';
-        $notif = new Notification($koneksi);
         $notif->showNotification();
         ?>
     </div>

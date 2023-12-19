@@ -29,22 +29,21 @@ $row = $product->fetchProduct($id);
         </div>
         <div style="height: 32px;"></div>
         <div style="border: 1px #EBEBEB solid; border-radius: 16px;">
-            <form action="fungsi/delete_product.php" method="post"> 
-                <div class="modal-header">Delete Product</div>
-                <div class="modal-content" style="gap: 24px;">
-                    <div id="drop-area">
-                        <input type="number" name="id" value="<?= $id ?>" hidden>
-                        <img src="assets/<?= $row['product_name'] ?>.png" style="width: 300px; height: 200px; object-fit:contain;">
-                        <span style="font-weight:600; font-size: 18px;"><?= $row['product_name'] ?></span>
-                    </div>
-                    <span style="font-weight:600; font-size: 20px; text-align: center;">Would you like to delete this product?</span>
+            <div class="modal-header">Delete Product</div>
+            <div class="modal-content" style="gap: 24px;">
+                <div id="drop-area">
+                    <img src="assets/<?= $row['product_name'] ?>.png" style="width: 300px; height: 200px; object-fit:contain;">
+                    <span style="font-weight:600; font-size: 18px;"><?= $row['product_name'] ?></span>
                 </div>
-                <div class="modal-footer" style="display: flex; gap: 16px;">
-                    <div onclick="history.back()" class="request-stock" style="padding: 16px; font-weight:500;">Cancel</div>
-                    <button type="submit" id="delete-product" class="request-stock" style="padding: 16px; background-color: #EC1A1A; color:#FFF;">Delete</button>
-                </div>
-            </form>
+                <span style="font-weight:600; font-size: 20px; text-align: center;">Would you like to delete this product?</span>
+            </div>
+            <div class="modal-footer" style="display: flex; gap: 16px;">
+                <div onclick="history.back()" class="request-stock" style="padding: 16px; font-weight:500;">Cancel</div>
+                <div id="delete-product" class="request-stock" style="padding: 16px; background-color: #EC1A1A; color:#FFF;">Delete</div>
+            </div>
         </div>
     </div>
 </div>
 </body>
+
+</html>

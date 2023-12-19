@@ -29,21 +29,24 @@ $row = $product->fetchProduct($id);
         </div>
         <div style="height: 32px;"></div>
         <div style="border: 1px #EBEBEB solid; border-radius: 16px;">
-            <div class="modal-header">Request Stock</div>
-            <div class="modal-content" style="gap: 24px;">
-                <div id="drop-area">
-                    <img src="assets/<?= $row['product_name'] ?>.png" style="width: 300px; height: 200px; object-fit:contain;">
-                    <span style="font-weight:600; font-size: 18px;"><?= $row['product_name'] ?></span>
+            <form action="fungsi/request_stock.php" method="post">
+                <div class="modal-header">Request Stock</div>
+                <div class="modal-content" style="gap: 24px;">
+                    <div id="drop-area">
+                        <input type="number" name="id" value="<?= $id ?>" hidden>
+                        <img src="assets/<?= $row['product_name'] ?>.png" style="width: 300px; height: 200px; object-fit:contain;">
+                        <span style="font-weight:600; font-size: 18px;"><?= $row['product_name'] ?></span>
+                    </div>
+                    <div class="myform">
+                        <label for="stock">Stock(s)<span style="color: #EC1A1A;">*</span></label>
+                        <input type="number" name="stock" id="stock" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid;" placeholder="0" required>
+                    </div>
                 </div>
-                <div class="myform">
-                    <label for="stock">Stock(s)</label>
-                    <input type="number" name="stock" id="stock" style="border-radius: 8px; padding: 16px; border: 1px #E1E1E1 solid; " placeholder="0">
+                <div class="modal-footer" style="display: flex; gap: 16px;">
+                    <div onclick="history.back()" class="request-stock" style="padding: 16px; font-weight:500;">Cancel</div>
+                    <button type="submit" id="user-reqstock" class="request-stock" style="padding: 16px; background-color: #FFC300;">Request</button>
                 </div>
-            </div>
-            <div class="modal-footer" style="display: flex; gap: 16px;">
-                <div onclick="history.back()" class="request-stock" style="padding: 16px; font-weight:500;">Cancel</div>
-                <div id="user-reqstock" class="request-stock" style="padding: 16px; background-color: #FFC300;">Request</div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

@@ -40,6 +40,8 @@ class Product
                     category AS c ON p.category_id = c.id 
                 WHERE
                     p.isHidden = 0
+                ORDER BY
+                    p.product_name
                 ";
         $result = mysqli_query($this->koneksi, $query);
         while ($row = mysqli_fetch_assoc($result)) {
