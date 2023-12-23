@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 15, 2023 at 04:31 AM
+-- Generation Time: Dec 18, 2023 at 03:57 PM
 -- Server version: 10.11.2-MariaDB
 -- PHP Version: 8.0.28
 
@@ -30,22 +30,28 @@ SET time_zone = "+00:00";
 CREATE TABLE `add_product_log` (
   `id` int(11) NOT NULL,
   `product_name` varchar(225) NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
   `category_id` int(11) NOT NULL,
   `description` varchar(225) NOT NULL,
   `stocks` int(11) NOT NULL,
   `buying_price` double NOT NULL,
   `selling_price` double NOT NULL,
-  `status` enum('approved','pending','rejected','') NOT NULL
+  `status` enum('approved','pending','rejected') NOT NULL DEFAULT 'pending',
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `add_product_log`
+-- Triggers `add_product_log`
 --
-
-INSERT INTO `add_product_log` (`id`, `product_name`, `date`, `category_id`, `description`, `stocks`, `buying_price`, `selling_price`, `status`) VALUES
-(1, 'Pop Mie Rasa Ayam', '2023-12-01', 1, '', 50, 5000, 7000, 'approved'),
-(2, 'Teh Pucuk Harum', '2023-12-10', 2, '', 100, 3000, 4000, 'pending');
+DELIMITER $$
+CREATE TRIGGER `after_approve_product` AFTER UPDATE ON `add_product_log` FOR EACH ROW BEGIN
+    IF NEW.status = 'approved' THEN
+        INSERT INTO product (product_name, category_id, description, stocks, buying_price, selling_price, isHidden)
+        VALUES (NEW.product_name, NEW.category_id, NEW.description, NEW.stocks, NEW.buying_price, NEW.selling_price, FALSE);
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -56,8 +62,26 @@ INSERT INTO `add_product_log` (`id`, `product_name`, `date`, `category_id`, `des
 CREATE TABLE `add_stock_log` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `stocks` int(11) NOT NULL
+  `date` datetime NOT NULL,
+  `stocks` int(11) NOT NULL,
+  `status` enum('approved','pending','rejected') NOT NULL DEFAULT 'pending',
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Triggers `add_stock_log`
+--
+DELIMITER $$
+CREATE TRIGGER `add_stock_trigger` AFTER INSERT ON `add_stock_log` FOR EACH ROW BEGIN
+    IF NEW.status = 'approved' THEN
+        -- Update the product stock by adding the new stocks from add_stock_log
+        UPDATE product
+        SET stocks = stocks + NEW.stocks
+        WHERE id = NEW.product_id;
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -92,18 +116,22 @@ CREATE TABLE `product` (
   `description` varchar(225) NOT NULL,
   `stocks` int(100) NOT NULL,
   `buying_price` double NOT NULL,
-  `selling_price` double NOT NULL
+  `selling_price` double NOT NULL,
+  `isHidden` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`id`, `product_name`, `category_id`, `description`, `stocks`, `buying_price`, `selling_price`) VALUES
-(1, 'Cheetos 15g', 1, '', 100, 1500, 2500),
-(2, 'Taro Net 32g', 1, '', 100, 3500, 5000),
-(3, 'Potabee Potato Chips 15g', 1, '', 100, 1500, 2500),
-(4, 'Garuda Rosta 25g', 1, '', 100, 4000, 5000);
+INSERT INTO `product` (`id`, `product_name`, `category_id`, `description`, `stocks`, `buying_price`, `selling_price`, `isHidden`) VALUES
+(1, 'Cheetos 15g', 1, '', 100, 1500, 2500, 0),
+(2, 'Taro Net 32g', 1, '', 100, 3500, 5000, 0),
+(3, 'Potabee Potato Chips 15g', 1, '', 100, 1500, 2500, 0),
+(4, 'Garuda Rosta 25g', 1, '', 100, 4000, 5000, 0),
+(5, 'Pop Mie Rasa Ayam', 1, '', 50, 5000, 7000, 0),
+(6, 'Teh Pucuk Harum', 2, '', 100, 3000, 4000, 0),
+(7, 'Poltek', 1, 'POLINEMA JOSS', 100, 1000, 10000, 1);
 
 -- --------------------------------------------------------
 
@@ -113,16 +141,17 @@ INSERT INTO `product` (`id`, `product_name`, `category_id`, `description`, `stoc
 
 CREATE TABLE `transactions` (
   `id` int(11) NOT NULL,
-  `date` datetime NOT NULL
+  `date` datetime NOT NULL,
+  `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`id`, `date`) VALUES
-(1, '2023-12-01 12:30:00'),
-(2, '2023-12-01 10:00:00');
+INSERT INTO `transactions` (`id`, `date`, `user_id`) VALUES
+(1, '2023-12-01 12:30:00', 2),
+(2, '2023-12-01 10:00:00', 2);
 
 -- --------------------------------------------------------
 
@@ -146,6 +175,26 @@ INSERT INTO `transaction_items` (`id`, `transactions_id`, `product_id`, `qty`, `
 (1, 1, 4, 2, 10000),
 (2, 1, 1, 2, 5000);
 
+--
+-- Triggers `transaction_items`
+--
+DELIMITER $$
+CREATE TRIGGER `reduce_stock_trigger` AFTER INSERT ON `transaction_items` FOR EACH ROW BEGIN
+    DECLARE product_stock INT;
+
+    -- Get the current stock of the product
+    SELECT stocks INTO product_stock
+    FROM product
+    WHERE id = NEW.product_id;
+
+    -- Update the product stock after the purchase
+    UPDATE product
+    SET stocks = product_stock - NEW.qty
+    WHERE id = NEW.product_id;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -156,6 +205,7 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
   `level` enum('admin','user') NOT NULL DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -163,9 +213,9 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `level`) VALUES
-(1, 'admin', '1234', 'admin'),
-(2, 'user', '1357', 'user');
+INSERT INTO `user` (`id`, `username`, `password`, `name`, `level`) VALUES
+(1, 'admin', '1234', 'Kaprodi', 'admin'),
+(2, 'user', '1357', 'Pak Kantin', 'user');
 
 --
 -- Indexes for dumped tables
@@ -176,14 +226,16 @@ INSERT INTO `user` (`id`, `username`, `password`, `level`) VALUES
 --
 ALTER TABLE `add_product_log`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `category_id` (`category_id`);
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `add_stock_log`
 --
 ALTER TABLE `add_stock_log`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `category`
@@ -202,7 +254,8 @@ ALTER TABLE `product`
 -- Indexes for table `transactions`
 --
 ALTER TABLE `transactions`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `transaction_items`
@@ -244,7 +297,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `transactions`
@@ -272,19 +325,27 @@ ALTER TABLE `user`
 -- Constraints for table `add_product_log`
 --
 ALTER TABLE `add_product_log`
-  ADD CONSTRAINT `add_product_log_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+  ADD CONSTRAINT `add_product_log_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
+  ADD CONSTRAINT `add_product_log_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `add_stock_log`
 --
 ALTER TABLE `add_stock_log`
-  ADD CONSTRAINT `add_stock_log_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
+  ADD CONSTRAINT `add_stock_log_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
+  ADD CONSTRAINT `add_stock_log_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `product`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+
+--
+-- Constraints for table `transactions`
+--
+ALTER TABLE `transactions`
+  ADD CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `transaction_items`
