@@ -43,12 +43,16 @@ $stock = $data['stock'];
                 </div>
             </div>
             <div class="modal-footer" style="display: flex; gap: 16px;">
-                <a href="<?= BASEURL . 'product/requeststock_approval/' . $stock['id'] . '/rejected' ?>" class="request-stock" style="padding: 16px; background-color: #EC1A1A; color:#FFF;">
-                    Reject
-                </a>
-                <a href="<?= BASEURL . 'product/requeststock_approval/' . $stock['id'] . '/approved' ?>" class="request-stock" style="padding: 16px; background-color: #FFC300;">
-                    Approve
-                </a>
+                <?php if ($stock['status'] == 'pending') { ?>
+                    <a href="<?= BASEURL . 'product/requeststock_approval/' . $stock['id'] . '/rejected' ?>" class="request-stock" style="padding: 16px; background-color: #EC1A1A; color:#FFF;">
+                        Reject
+                    </a>
+                    <a href="<?= BASEURL . 'product/requeststock_approval/' . $stock['id'] . '/approved' ?>" class="request-stock" style="padding: 16px; background-color: #FFC300;">
+                        Approve
+                    </a>
+                <?php } else { ?>
+                    <div class="request-stock" style="padding: 16px; cursor: not-allowed;"><?= strtoupper($stock['status']) ?></div>
+                <?php } ?>
             </div>
         </div>
     </div>

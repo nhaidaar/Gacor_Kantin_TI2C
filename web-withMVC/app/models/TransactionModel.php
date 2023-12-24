@@ -72,6 +72,28 @@ class TransactionModel
     }
 
 
+    function getFilteredTransaction($start, $end)
+    {
+
+        $this->db->query("SELECT 
+                            t.id AS order_id,
+                            TIME(t.date) AS transaction_time,
+                            DATE(t.date) AS transaction_date,
+                            SUM(ti.total_price) AS total_price
+                        FROM 
+                            transactions t
+                        INNER JOIN 
+                            transaction_items ti ON t.id = ti.transactions_id
+                        WHERE
+                            t.date BETWEEN '$start 00:00:00' AND '$end 23:59:59'
+                        GROUP BY 
+                            t.id
+                        ORDER BY 
+                            t.date DESC
+                        ");
+        return $this->db->fetchAll();
+    }
+
     function getAllTransaction()
     {
 
@@ -91,6 +113,7 @@ class TransactionModel
                         ");
         return $this->db->fetchAll();
     }
+
     function getRecentTransaction($limit)
     {
 
@@ -109,6 +132,23 @@ class TransactionModel
                             t.date DESC
                         LIMIT
                             $limit
+                        ");
+        return $this->db->fetchAll();
+    }
+
+    function searchProduct($search)
+    {
+        $this->db->query("SELECT
+                            p.id, p.product_name, p.stocks,
+                            p.buying_price, p.selling_price, c.category_name
+                        FROM 
+                            product AS p
+                        INNER JOIN 
+                            category AS c ON p.category_id = c.id
+                        WHERE 
+                            p.product_name LIKE '%$search%'
+                        AND
+                            p.isHidden = 0
                         ");
         return $this->db->fetchAll();
     }
