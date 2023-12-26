@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <form action="<?= BASEURL . 'product/requestproduct_send' ?>" method="post" enctype="multipart/form-data">
+            <form action="<?= BASEURL . 'product/addproduct_send' ?>" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div style="display: flex; flex-direction: column; gap: 24px;">
                         <label for="input-file" id="drop-area">

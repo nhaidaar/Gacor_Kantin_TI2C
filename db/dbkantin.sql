@@ -9,7 +9,7 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+07:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -72,7 +72,7 @@ CREATE TABLE `add_stock_log` (
 -- Triggers `add_stock_log`
 --
 DELIMITER $$
-CREATE TRIGGER `add_stock_trigger` AFTER INSERT ON `add_stock_log` FOR EACH ROW BEGIN
+CREATE TRIGGER `add_stock_trigger` AFTER UPDATE ON `add_stock_log` FOR EACH ROW BEGIN
     IF NEW.status = 'approved' THEN
         -- Update the product stock by adding the new stocks from add_stock_log
         UPDATE product

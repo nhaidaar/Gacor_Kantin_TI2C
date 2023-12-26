@@ -31,7 +31,7 @@ class Product extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit($id = 0)
     {
         session_start();
 
@@ -40,15 +40,23 @@ class Product extends Controller
         $data['category'] = $this->model('ProductModel')->getCategory();
         $data['product'] = $this->model('ProductModel')->fetchProduct($id);
 
-        if ($_SESSION['level'] == 'admin') {
-            $this->view('template/header', $data);
-            $this->view('product/edit_product', $data);
+        if ($id != 0) {
+            if ($_SESSION['level'] == 'admin') {
+                $this->view('template/header', $data);
+                $this->view('product/edit_product', $data);
+            } else {
+                // Show 403 Forbidden Page
+                $this->view('template/header', $data);
+                $this->view('template/403', $data);
+            }
         } else {
-            header("Location: " . BASEURL);
+            // Show 404 Not Found Page
+            $this->view('template/header', $data);
+            $this->view('template/404', $data);
         }
     }
 
-    public function delete($id)
+    public function delete($id = 0)
     {
         session_start();
 
@@ -56,15 +64,23 @@ class Product extends Controller
         $data['count_pending'] = $this->model('NotificationModel')->countPending();
         $data['product'] = $this->model('ProductModel')->fetchProduct($id);
 
-        if ($_SESSION['level'] == 'admin') {
-            $this->view('template/header', $data);
-            $this->view('product/delete_product', $data);
+        if ($id != 0) {
+            if ($_SESSION['level'] == 'admin') {
+                $this->view('template/header', $data);
+                $this->view('product/delete_product', $data);
+            } else {
+                // Show 403 Forbidden Page
+                $this->view('template/header', $data);
+                $this->view('template/403', $data);
+            }
         } else {
-            header("Location: " . BASEURL);
+            // Show 404 Not Found Page
+            $this->view('template/header', $data);
+            $this->view('template/404', $data);
         }
     }
 
-    public function requeststock($id)
+    public function requeststock($id = 0)
     {
         session_start();
 
@@ -72,9 +88,19 @@ class Product extends Controller
         $data['count_pending'] = $this->model('NotificationModel')->countPending();
         $data['product'] = $this->model('ProductModel')->fetchProduct($id);
 
-        if ($_SESSION['level'] == 'user') {
+        if ($id != 0) {
+            if ($_SESSION['level'] == 'user') {
+                $this->view('template/header', $data);
+                $this->view('product/request_stock', $data);
+            } else {
+                // Show 403 Forbidden Page
+                $this->view('template/header', $data);
+                $this->view('template/403', $data);
+            }
+        } else {
+            // Show 404 Not Found Page
             $this->view('template/header', $data);
-            $this->view('product/request_stock', $data);
+            $this->view('template/404', $data);
         }
     }
 
@@ -96,6 +122,29 @@ class Product extends Controller
             $this->model('ProductModel')->changeStatusRequestStock($id, $status);
             header("Location: " . BASEURL . 'notification');
         }
+    }
+
+    public function addproduct_send()
+    {
+        session_start();
+
+        $name = $_POST['name'];
+        $category_id = $_POST['category_id'];
+        $description = $_POST['desc'];
+        $stocks = $_POST['stock'];
+        $buying_price = $_POST['bprice'];
+        $selling_price = $_POST['sprice'];
+
+        $image = $_FILES['image']['name'];
+        $image_tmp = $_FILES['image']['tmp_name'];
+        $target_dir = "../public/assets/products/";
+
+        $target_file = $target_dir . $name . ".png";
+        move_uploaded_file($image_tmp, $target_file);
+
+        $this->model('ProductModel')->addProduct($name, $category_id, $description, $stocks, $buying_price, $selling_price);
+
+        header("Location: " . BASEURL . 'product');
     }
 
     public function editproduct_send()

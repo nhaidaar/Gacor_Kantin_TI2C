@@ -30,12 +30,16 @@ class Auth extends Controller
 
         // Jika username ada dan password benar, maka set data SESSION yang diperlukan dan arahkan ke dashboard
         // Jika tidak, maka arahkan ke halaman default (login)
-        if ($user != null && $user['password'] == $password) {
-            $_SESSION['id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['level'] = $user['level'];
+        if ($user != null) {
+            if ($user['password'] == $password) {
+                $_SESSION['id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['level'] = $user['level'];
 
-            header("Location: " . BASEURL . "dashboard");
+                header("Location: " . BASEURL . "dashboard");
+            } else {
+                header("Location: " . BASEURL);
+            }
         } else {
             header("Location: " . BASEURL);
         }
