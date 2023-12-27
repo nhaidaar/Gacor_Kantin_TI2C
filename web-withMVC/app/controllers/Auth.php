@@ -5,8 +5,10 @@ class Auth extends Controller
     {
         session_start();
 
-        // Cek apakah ada parameter level di SESSION
-        // (User sudah login)
+        // Cek apakah level sudah di set di SESSION (User sudah login sebelumnya)
+        // Jika iya arahkan ke dashboard
+        // Jika tidak set view ke halaman login
+
         if (isset($_SESSION['level'])) {
             header("Location: " . BASEURL . "dashboard");
         } else {
@@ -18,19 +20,26 @@ class Auth extends Controller
     {
         session_start();
 
+        // Ambil request POST username dan password
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $user = $this->model('AuthModel')->getUser($username, $password);
+        // Ambil data user berdasarkan username
+        $user = $this->model('AuthModel')->getUser($username);
 
-        // Cek apakah di dalam result ada kolom level
-        // (Username dan Password benar)
-        if (isset($user['level'])) {
-            $_SESSION['id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['level'] = $user['level'];
 
-            header("Location: " . BASEURL . "dashboard");
+        // Jika username ada dan password benar, maka set data SESSION yang diperlukan dan arahkan ke dashboard
+        // Jika tidak, maka arahkan ke halaman default (login)
+        if ($user != null) {
+            if ($user['password'] == $password) {
+                $_SESSION['id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['level'] = $user['level'];
+
+                header("Location: " . BASEURL . "dashboard");
+            } else {
+                header("Location: " . BASEURL);
+            }
         } else {
             header("Location: " . BASEURL);
         }
@@ -40,6 +49,7 @@ class Auth extends Controller
     {
         session_start();
 
+        // Destroy session yang ada dan arahkan ke halaman default (login)
         session_destroy();
         header("Location: " . BASEURL);
     }

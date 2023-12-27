@@ -98,7 +98,7 @@ class NotificationModel
     function fetchStock($id)
     {
         $this->db->query("SELECT 
-                            s.id, p.product_name, s.stocks
+                            s.id, p.product_name, s.stocks, s.status
                         from 
                             add_stock_log AS s
                         INNER JOIN

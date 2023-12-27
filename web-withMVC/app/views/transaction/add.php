@@ -86,26 +86,30 @@
         </div>
     </div>
 </div>
-<!-- <script>
+<script>
     $(document).ready(function() {
+
+        // Fungsi untuk mengupdate Total Price setiap dipanggil
         function updateTotalPrice() {
             var totalPrice = 0;
-            // Iterate through each 'eachtotal' td element and sum up their values
+
+            // Menjumlahkan total price tiap row (product)
             $('#order-list td#eachtotal').each(function() {
                 totalPrice += parseFloat($(this).text());
             });
 
-            // Update the total price in the #total_price element
+            // Mengupdate total price keseluruhan
             $('#total_price').text(totalPrice);
         }
 
+        // Searching Product
         $('.searchbox').keyup(function(e) {
             var input = $(this).val();
             const box = document.querySelector('.search-result');
             if (input != '') {
                 box.style.display = 'block';
                 $.ajax({
-                    url: "fungsi/search_transaction.php",
+                    url: '<?= BASEURL . 'transaction/searchProduct' ?>',
                     type: "POST",
                     data: {
                         input: input
@@ -119,11 +123,16 @@
             }
         });
 
+        // Pilih product yang telah disearch untuk masuk ke cart
         $(document).on('click', '.search-result-container', function() {
             var id = $(this).data('id');
+
+            // Mengecek apakah produk sudah ada di cart
             var productExists = false;
             $('#order-list tr').each(function() {
                 var product_id = $(this).find('#product_id').text();
+
+                // Jika produk telah ada, maka tambahkan quantity nya
                 if (product_id.trim() === id.toString()) {
                     productExists = true;
                     var qty = $(this).find('#qty');
@@ -132,12 +141,14 @@
                     return false;
                 }
             });
+
+            // Jika tidak ada maka tambahan ke cart
             if (!productExists) {
                 const box = document.querySelector('.search-result');
                 box.style.display = 'none';
                 $.ajax({
                     type: "POST",
-                    url: "fungsi/get_product_detail.php",
+                    url: '<?= BASEURL . 'transaction/addToCart' ?>',
                     data: {
                         id: id
                     },
@@ -154,7 +165,7 @@
             }
         });
 
-        // qty * sellingprice = totalprice
+        // Mendeteksi perubahan pada quantity, lalu mengupdate total price
         $(document).on('input change', '#qty', function() {
             var qty = $(this).val();
             var sellingPrice = parseFloat($(this).closest('tr').find('td:eq(4)').text());
@@ -163,13 +174,13 @@
             updateTotalPrice();
         });
 
-        // remove button
+        // Remove button untuk membatalkan product yang telah dipilih
         $(document).on('click', '#cancel-row', function() {
             $(this).closest('tr').remove();
             updateTotalPrice();
         });
 
-        // submit the transaction
+        // Submit transaksi
         $('#submit').on('click', function() {
             var dataRow = [];
             $('#order-list tr').each(function() {
@@ -182,35 +193,28 @@
             });
             $.ajax({
                 type: "POST",
-                url: "fungsi/add_transaction.php",
+                url: "<?= BASEURL . 'transaction/add_send' ?>",
                 data: {
                     dataRow: dataRow
                 },
                 success: function(response) {
-                    window.location.href = "index.php?page=transaction";
+                    window.location.href = '<?= BASEURL . 'transaction' ?>';
                 }
             });
         });
     });
 
-    // Get references to the elements
+    // Menghitung total bayar dengan kembalian
     const total_price = document.getElementById('total_price');
     const pay = document.getElementById('pay');
     const change = document.getElementById('change');
-
-    // Add event listener for input on the pay field
     pay.addEventListener('input', function() {
-        // Get the values and parse them as numbers
         const totalPriceValue = parseFloat(total_price.innerText);
         const payValue = parseFloat(pay.value) || 0;
-
-        // Calculate the change
         const calculatedChange = (payValue - totalPriceValue).toFixed(2);
-
-        // Display the change in the #change span
         change.innerText = calculatedChange;
     });
-</script> -->
+</script>
 </body>
 
 </html>

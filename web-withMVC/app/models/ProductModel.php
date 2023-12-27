@@ -77,9 +77,9 @@ class ProductModel
     {
         $this->db->query("INSERT INTO 
                             product 
-                            (product_name, date, category_id, description, stocks, buying_price, selling_price)
+                            (product_name, category_id, description, stocks, buying_price, selling_price)
                         VALUES 
-                            ('$name', NOW(), $category_id, '$description', $stocks, $buying_price, $selling_price)
+                            ('$name', $category_id, '$description', $stocks, $buying_price, $selling_price)
                         ");
         $this->db->execute();
     }

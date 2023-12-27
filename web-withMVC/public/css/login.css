@@ -82,23 +82,27 @@ margin-bottom: 8px;
 }
 
 .login-form input {
+font-family: "SF Pro Display";
 border-radius: 64px;
 padding: 16px 20px;
 border: 1px #E1E1E1 solid;
 }
 
-.login-form input ::placeholder {
+.login-form input::placeholder {
+font-family: "SF Pro Display";
 font-weight: 400;
-font-size: 20px;
+font-size: 16px;
 color: #B7B7B7;
 }
 
-.login-form button {
+button {
+font-family: "SF Pro Display";
 padding: 16px;
 border-radius: 64px;
 background-color: #FFC300;
 border: 0;
-font-weight: 500;
+font-size: 16px;
+font-weight: 600;
 }
 
 .display-image{

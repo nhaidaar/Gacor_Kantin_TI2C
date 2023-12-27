@@ -1,16 +1,16 @@
 <?php
 class AuthModel
 {
-    private $db; // Statement (query)
+    private $db;
 
     function __construct()
     {
         $this->db = new Database;
     }
 
-    function getUser($username, $password)
+    function getUser($username)
     {
-        $this->db->query("SELECT * FROM user WHERE username = '$username' AND password = '$password'");
+        $this->db->query("SELECT * FROM user WHERE username = '$username'");
         return $this->db->fetch();
     }
 }
