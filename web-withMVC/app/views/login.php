@@ -30,7 +30,7 @@ if (session_status() === PHP_SESSION_NONE)
             </div>
         </div>
         <div style="height: 24px;"></div>
-        <form action="<?= BASEURL ?>/auth/login" method="post" class="login-form">
+        <form action="<?= BASEURL ?>Auth/login" method="post" class="login-form">
             <label for="username">Username</label>
             <input type="text" name="username" placeholder="Enter your name">
             <div style="height: 16px;"></div>

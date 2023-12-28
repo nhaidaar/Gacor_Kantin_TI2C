@@ -7,10 +7,10 @@ class Database
 
     function __construct()
     {
-        $dsn = 'mysql:host=localhost;dbname=kantin'; // Data Source Name
+        $dsn = 'mysql:host=localhost;dbname=dbkantin'; // Data Source Name
 
         try {
-            $this->dbh = new PDO($dsn, 'root', ''); // Try to connect database
+            $this->dbh = new PDO($dsn, 'akfalah', '2905'); // Try to connect database
         } catch (PDOException $e) {
             die($e->getMessage()); // Get error message
         }
